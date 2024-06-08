@@ -1,0 +1,61 @@
+{
+  "name": "ixxx",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "b": "rollup --config rollup.config.js && tsc -p tsconfig.types.json",
+    "build": "npx ixxx r out types && npm run b",
+    "clean": "npx ixxx r out types node_modules",
+    "test": "node bin/ixxx.js r out types && npm run b && node bin/ixxx.js cls",
+    "up": "npx ixxx u -n"
+  },
+  "files": [
+    "out",
+    "types",
+    "bin"
+  ],
+  "keywords": [
+    "lmssee",
+    "terminal",
+    "delete-files",
+    "npm-one-click-publish",
+    "clear-terminal-screen",
+    "ixxx",
+    "is-mi"
+  ],
+  "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
+  "license": "ISC",
+  "description": "some command in terminal,not only delete file、publish npm package",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmssee/ixxx.git"
+  },
+  "homepage": "https://lmssee.github.io/ixxx",
+  "bugs": {
+    "url": "https://github.com/lmssee/ixxx/issues",
+    "email": "lmssee@outlook.com"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "ismi-command": "^0.0.2",
+    "ismi-js-tools": "^0.0.0",
+    "ismi-node-tools": "^0.0.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.14.2",
+    "rollup": "^4.18.0",
+    "rollup-plugin-cleanup": "^3.2.1",
+    "typescript": "^5.4.5"
+  },
+  "bin": {
+    "ixxx": "bin/ixxx.js"
+  }
+}
