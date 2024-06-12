@@ -1,6 +1,6 @@
 import { Command } from "ismi-command";
 import { test } from "node:test";
-import command from "src/com";
+import command from "src/command";
 // import { clearScreenBind, packageBind, removeBind, updateBind } from "src/com";
 // import remove from 'src/remove';
 import update from 'src/update';

@@ -3,8 +3,9 @@ node_modules/
 
 # 打包
 
-/out
-/types
+/exportMjs
+/exportCjs
+/exportTypes
 
 ## 测试
 test/out

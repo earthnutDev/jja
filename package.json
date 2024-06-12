@@ -1,31 +1,34 @@
 {
   "name": "ixxx",
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.1",
+  "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
+  "description": "some command in terminal,not only delete file、publish npm package",
   "scripts": {
     "b": "rollup --config rollup.config.js && tsc -p tsconfig.types.json",
-    "build": "npx ixxx r out types && npm run b",
-    "clean": "npx ixxx r out types node_modules",
-    "test": "node bin/ixxx.js r out types && npm run b && node bin/ixxx.js cls",
-    "up": "npx ixxx u -n"
+    "build": "npx ixxx rm exportCjs exportMjs exportTypes  run b",
+    "clean": "npx ixxx up -d rm exportCjs exportMjs exportTypes  node_modules run npm install run b",
+    "test": "npx ixxx rm exportCjs exportMjs exportTypes run b  &&  node exportBin/index.js up -n",
+    "up": "npx ixxx up -n"
   },
   "files": [
-    "out",
-    "types",
-    "bin"
+    "exportBin",
+    "exportCjs",
+    "exportMjs",
+    "exportTypes"
   ],
   "keywords": [
+    "letmiseesee",
     "lmssee",
     "terminal",
+    "is-mi",
+    "ismi",
+    "ixxx",
     "delete-files",
     "npm-one-click-publish",
-    "clear-terminal-screen",
-    "ixxx",
-    "is-mi"
+    "clear-terminal-screen"
   ],
-  "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
   "license": "ISC",
-  "description": "some command in terminal,not only delete file、publish npm package",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lmssee/ixxx.git"
@@ -40,9 +43,10 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "ismi-command": "^0.0.2",
-    "ismi-js-tools": "^0.0.0",
-    "ismi-node-tools": "^0.0.1"
+    "ismi": "^0.0.0",
+    "ismi-command": "^0.0.5",
+    "ismi-js-tools": "^0.0.2",
+    "ismi-node-tools": "^0.0.3"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.8",
@@ -56,6 +60,6 @@
     "typescript": "^5.4.5"
   },
   "bin": {
-    "ixxx": "bin/ixxx.js"
+    "ixxx": "exportBin/index.js"
   }
 }

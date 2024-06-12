@@ -1,8 +1,14 @@
-import { isWindows, runOtherCode } from "ismi-node-tools";
+import { isWindows } from "ismi-node-tools"
+import { execSync } from "node:child_process"
 
-/** terminal 清理 */
-export default async function () {
-  console.log(12);
+/** 到处清理屏幕的信息 */
+export const clearScreenBind = {
+  "clearScreen <cls> (清理终端显示屏幕，同 clearTerminal )": "",
+  "clearTerminal  <clear>  (清理终端显示屏幕，同 clearScreen )": ""
+};
 
-  const result = await runOtherCode(isWindows ? 'cls' : "clear");
+
+/*** 导出清理屏幕 */
+export async function clearScreen() {
+  execSync(isWindows ? 'cls' : 'clear', { stdio: [0, 1, 2] });
 }

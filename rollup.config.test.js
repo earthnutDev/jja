@@ -16,14 +16,6 @@ export default {
       exports: "named",
       dir: "test/out",
     },
-    {
-      format: "cjs",
-      entryFileNames: "[name].cjs",
-      preserveModules: true,
-      sourcemap: false,
-      exports: "named",
-      dir: "test/out",
-    },
   ],
   // 配置需要排除的包
   external: (id) => /^(node:)|^(tslib)|^(ismi-)/.test(id),
