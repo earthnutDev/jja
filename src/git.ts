@@ -1,19 +1,21 @@
-import { question } from "ismi-command";
+import { question, selection } from "ismi-command";
 import { typeOf } from "ismi-js-tools";
 import {
   Color,
   fileExist,
+  getDirectoryBy,
   pathJoin,
   readFileToJsonSync,
   runOtherCode,
 } from "ismi-node-tools";
-import { getDirectoryBy } from "./tools";
+import command from "./command";
 
 export const gitBind = {
   "git   (一些关于 git 的操作)": [
-    `commit <-c> (git 提交代码，是 ${Color.red(
+    `commit (git 提交代码，是 ${Color.red(
       "commit"
     )} 提交啊，不是 ${Color.fromRgb("push", "#666")} 推送)`,
+    "merge (合并两个分支)",
   ],
 };
 
@@ -22,7 +24,10 @@ export default async function (params: any) {
   /** 提交代码 */
   if (params.commit) {
     await gitCommit(params.commit.join(" "));
-  }
+  } else if (params.merge) {
+    /** 合并代码 */
+    await gitMerge(params.merge.join(""));
+  } else command.help("git");
   //  else if (params)
 }
 
@@ -73,11 +78,38 @@ export async function gitCommit(
       const version = readFileToJsonSync(pathJoin(cwd, "package.json")).version;
       if (!version) return true;
       await runOtherCode({
-        code: `git tag -a  v${version} -m '${commitMessage}' && git push origin --tag`,
+        code: `git tag -a  v${version} -m '${commitMessage}'`,
         cwd,
       });
+      await runOtherCode({ code: "git push origin --tag", cwd });
     }
     return true;
   }
   return false;
+}
+
+/** 合并两个分支  */
+async function gitMerge(params: string) {
+  if (params == "") {
+    const branchList = await runOtherCode("git branch -a");
+    console.log(branchList.data);
+    params = await question({
+      text: "请输入要合并分支的名称",
+      private: true,
+    });
+  }
+  const mergeType: any = await selection(
+    {
+      data: [
+        "正常快进合并",
+        "非快进合并 （--no-ff）",
+        "多提交记录合并为一条 （--squash）",
+      ],
+      private: true,
+    },
+    "number"
+  );
+  await runOtherCode(
+    `git merge ${params}  ${["", "--no-ff", "--squash"][mergeType]}`
+  );
 }

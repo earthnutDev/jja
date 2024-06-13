@@ -1,12 +1,10 @@
-import { t, typeOf } from "ismi-js-tools";
-import { Color, readFileToJsonSync, runOtherCode } from "ismi-node-tools";
+import { t } from "ismi-js-tools";
+import { Color, getDirectoryBy, runOtherCode } from "ismi-node-tools";
 import { question, selection } from "ismi-command";
 import command from "./command";
 import { ParamsDataType } from "./types";
 import { gitCommit } from "./git";
 import { diffPackage, updateDependence } from "./package";
-import { readFileSync } from "node:fs";
-import { getDirectoryBy } from "./tools";
 
 /** 导出绑定信息，放这个文件夹为了方便看 */
 export const updateBind = {
@@ -141,11 +139,5 @@ async function versionMange(): Promise<boolean | void> {
 /** 打印日志 */
 function print(str: string) {
   data.log && console.log(str);
-  return true;
-}
-
-/** 这里重新定义了 cursorUp ，因为要清理旧的显示 */
-function cursorMoveUp(): boolean {
-  data.log && stdout.write(`${t}1A${t}J`);
   return true;
 }

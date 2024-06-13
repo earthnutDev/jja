@@ -2,6 +2,7 @@ import {
   Color,
   cursorMoveUp,
   fileExist,
+  getDirectoryBy,
   getNpmPkgInfo,
   pathJoin,
   readFileToJsonSync,
@@ -9,7 +10,6 @@ import {
 } from "ismi-node-tools";
 import { ParamsDataType } from "./types";
 import command from "./command";
-import { getDirectoryBy } from "./tools";
 
 /** 到处包管理的绑定信息 */
 export const packageBind = {
@@ -47,26 +47,24 @@ export async function updateDependence(log: boolean = true) {
   for (let i = Object.keys(dependencies), j = i.length, k = 0; k < j; k++) {
     const currentEle = i[k];
     log && console.log(Color.cyan(`正在检测依赖 ${currentEle} 版本状态`));
-    const tempVersion = (await getNpmPkgInfo(currentEle))[0].version;
+    // const tempVersion = (await getNpmPkgInfo(currentEle))[0].version;
     /** 检测版本是否需要更新 */
-    if ((dependencies[currentEle] as string).endsWith(tempVersion)) {
-      log &&
-        (cursorMoveUp(),
-        console.log(`依赖 ${currentEle} 已是新版本，无需更新`));
-      continue;
-    }
-    log &&
-      console.log(
-        `依赖 ${currentEle} 当前版本（${dependencies[currentEle].replace(
-          /^.*?(\d.*)$/,
-          "$1"
-        )}），最新版本 （${tempVersion}） `
-      );
+    // if ((dependencies[currentEle] as string).endsWith(tempVersion)) {
+    // log &&
+    //   (cursorMoveUp(), console.log(`依赖 ${currentEle} 已是新版本，无需更新`));
+    // continue;
+    // }
+    // log &&
+    //   console.log(
+    //     `依赖 ${currentEle} 当前版本（${dependencies[currentEle].replace(
+    //       /^.*?(\d.*)$/,
+    //       "$1"
+    //     )}），最新版本 （${tempVersion}） `
+    //   );
     // npm 会自动把其安装在父级类文件夹下
     await runOtherCode(`npm install ${currentEle}@latest --save`);
     log &&
-      (cursorMoveUp(),
-      console.log(Color.green(`依赖 ${currentEle} 更新到 ${tempVersion}完毕`)));
+      (cursorMoveUp(), console.log(Color.green(`依赖 ${currentEle} 更新完毕`)));
   }
   log && console.log(Color.cyan(`正在更新 dev 依赖`));
   // npm 会自动把其安装在父级类文件夹下
@@ -104,7 +102,14 @@ export async function diffPackage(log: boolean = false): Promise<string[]> {
   log &&
     console.log(
       Color.fromHexadecimal(
-        " ".repeat(6).concat(`线上版本为: ${tempInfo.version}`),
+        " "
+          .repeat(6)
+          .concat(
+            `线上版本为: ${tempInfo.version} （${Color.fromRgb(
+              "线上更新有延迟",
+              "#668"
+            )}）`
+          ),
         "#399"
       )
     );

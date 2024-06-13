@@ -1,7 +1,7 @@
 {
   "name": "ixxx",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
   "description": "some command in terminal,not only delete file、publish npm package",
   "scripts": {
@@ -46,7 +46,7 @@
     "ismi": "^0.0.0",
     "ismi-command": "^0.0.5",
     "ismi-js-tools": "^0.0.2",
-    "ismi-node-tools": "^0.0.3"
+    "ismi-node-tools": "^0.0.4"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.8",
