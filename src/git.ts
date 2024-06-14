@@ -16,6 +16,7 @@ export const gitBind = {
       "commit"
     )} 提交啊，不是 ${Color.fromRgb("push", "#666")} 推送)`,
     "merge (合并两个分支)",
+    "tag (给提交打上 tag)",
   ],
 };
 
@@ -27,6 +28,8 @@ export default async function (params: any) {
   } else if (params.merge) {
     /** 合并代码 */
     await gitMerge(params.merge.join(""));
+  } else if (params.tag) {
+    await beforeTagCommit();
   } else command.help("git");
   //  else if (params)
 }
@@ -72,20 +75,33 @@ export async function gitCommit(
     if (commitResult.error) console.log(commitResult.error);
     await runOtherCode({ code: "git push", cwd });
     // 需要打标签
-    if (tag) {
-      cwd = getDirectoryBy("package.json", "file", process.cwd());
-      if (cwd == undefined) return true;
-      const version = readFileToJsonSync(pathJoin(cwd, "package.json")).version;
-      if (!version) return true;
-      await runOtherCode({
-        code: `git tag -a  v${version} -m '${commitMessage}'`,
-        cwd,
-      });
-      await runOtherCode({ code: "git push origin --tag", cwd });
-    }
+    if (tag) await tagCommit(commitMessage);
     return true;
   }
   return false;
+}
+
+/** 打 tag 之前 */
+async function beforeTagCommit() {
+  await tagCommit(
+    await question({
+      text: "请输入待标记的信息",
+      private: true,
+    })
+  );
+}
+
+/** 给提交打上 tag  */
+async function tagCommit(commitMessage: string) {
+  const cwd = getDirectoryBy("package.json", "file", process.cwd());
+  if (cwd == undefined) return true;
+  const version = readFileToJsonSync(pathJoin(cwd, "package.json")).version;
+  if (!version) return true;
+  await runOtherCode({
+    code: `git tag -a  v${version} -m '${commitMessage}'`,
+    cwd,
+  });
+  await runOtherCode({ code: "git push origin --tag", cwd });
 }
 
 /** 合并两个分支  */

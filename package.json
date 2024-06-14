@@ -1,14 +1,14 @@
 {
   "name": "ixxx",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
   "description": "some command in terminal,not only delete file、publish npm package",
   "scripts": {
     "b": "rollup --config rollup.config.js && tsc -p tsconfig.types.json",
     "build": "npx ixxx rm exportCjs exportMjs exportTypes  run b",
     "clean": "npx ixxx up -d rm exportCjs exportMjs exportTypes  node_modules run npm install run b",
-    "test": "npx ixxx rm exportCjs exportMjs exportTypes run b  &&  node exportBin/index.js up -n",
+    "test": "npx ixxx rm exportCjs exportMjs exportTypes run b  &&  node exportBin/index.js  git tag",
     "up": "npx ixxx up -n"
   },
   "files": [
@@ -44,9 +44,9 @@
   },
   "dependencies": {
     "ismi": "^0.0.0",
-    "ismi-command": "^0.0.5",
+    "ismi-command": "^0.0.7",
     "ismi-js-tools": "^0.0.2",
-    "ismi-node-tools": "^0.0.4"
+    "ismi-node-tools": "^0.0.5"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.8",

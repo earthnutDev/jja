@@ -16,8 +16,8 @@ const removeData = {
   /** 是否打印日志 */
   log: false,
   /**是否在 windows 下清理所有的同名文件  */
-  subdirectories: false
-}
+  subdirectories: false,
+};
 
 /** 移除文件或是目录 */
 export default async function (remove: ParamsDataType) {
@@ -48,10 +48,12 @@ export default async function (remove: ParamsDataType) {
 
 /** 移除文件前检测 */
 async function beforeRemove(element: string) {
-  !removeData.log && console.log(Color.red(`当前清理文件为 ${element}`));
+  !removeData.log &&
+    console.log(Color.fromRgb(`当前清理文件为 ${element}`, "#336"));
   /**  仅作判断用 */
   const justForJudgment = fileExist(element);
-  !removeData.log && console.log(Color.darkMagenta(`正在检测 ${element} 文件/夹是否存在`));
+  !removeData.log &&
+    console.log(Color.fromRgb(`正在检测 ${element} 文件/夹是否存在`, "#666"));
   if (justForJudgment) {
     await wheelRun(removeFileOrDirectory, [element, justForJudgment]);
   } else {
@@ -62,15 +64,16 @@ async function beforeRemove(element: string) {
 /** 轮回执行 */
 async function wheelRun(callFn: any, params: any[], count: number = 5) {
   const result = await Reflect.apply(callFn, undefined, params);
-  if (!result) {
-    console.log(Color.green('执行失败，现在重试中'));
-    await wheelRun(callFn, params, --count);
+  if (!result && count--) {
+    console.log(Color.green("执行失败，现在重试中"));
+    await wheelRun(callFn, params, count);
   }
 }
 
 /** 移除文件或是目录 */
 async function removeFileOrDirectory(element: string, justForJudgment: Stats) {
-  !removeData.log && console.log(Color.darkMagenta(` ${element} 文件/夹存在，准备删除`));
+  !removeData.log &&
+    console.log(Color.fromRgb(` ${element} 文件/夹存在，准备删除`, "#aaa"));
   let result: {
     error: any;
     success?: boolean | undefined;
@@ -79,23 +82,26 @@ async function removeFileOrDirectory(element: string, justForJudgment: Stats) {
 
   if (isWindows) {
     if (justForJudgment.isDirectory()) {
-      result = await runOtherCode(`rmdir \/q \/s  ${element}`);
+      result = await runOtherCode(`rd \/q \/s  ${element.replace(/\//, "\\")}`);
       removeResult(element, result.success);
       // rmdirSync(element, { force: true, recursive: true });
     } else if (justForJudgment.isFile()) {
       // rmSync(element, { force: true });
       result = await runOtherCode({
-        code: `del  ${removeData.subdirectories ? "/s" : ""}  \/q  ${element}`,
+        code: `del  ${
+          removeData.subdirectories ? "/s" : ""
+        }  \/q  ${element.replace(/\//, "\\")}`,
       });
       removeResult(element, result.success);
     }
   } else {
-    result = await runOtherCode({ code: `rm -rf  ${element}` });
+    result = await runOtherCode({
+      code: `rm -rf  ${element.replace(/\\/, "/")}`,
+    });
     removeResult(element, result.success);
   }
-  if (!(result).success) return console.log(result.error) !== undefined;
-  !removeData.log && console.log(Color.darkRed(`清理文件/夹${element}完成`));
-  return true
+  if (!result.success) return console.log(result.error) !== undefined;
+  return true;
 }
 
 /** 打印清理结果 */
