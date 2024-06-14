@@ -77,8 +77,8 @@ async function updateNpm() {
     const commitMessage = await question({ text: "提交说明", private: true });
     await manageGit(commitMessage);
   }
-  await runOtherCode("npm publish");
-  print(Color.green(`上推 npm 包完毕`));
+  // await runOtherCode("npm publish");
+  // print(Color.green(`上推 npm 包完毕`));
 }
 
 /** 整理 git  */
@@ -97,13 +97,13 @@ async function versionMange(): Promise<boolean | void> {
     return console.log("当前工作目录下或父级存在 package.json");
   const versionList = await diffPackage();
   // 未获取目标
-  if (versionList.length < 2) return versionList.length == 1;
-  else if (versionList[0] != versionList[1])
-    return console.log(
-      `当前版本为：${Color.cyan(versionList[0])}\n线上版本为: ${Color.darkRed(
-        versionList[1]
-      )}\n请保持一致`
-    );
+  // if (versionList.length < 2) return versionList.length == 1;
+  // else if (versionList[0] != versionList[1])
+  //   return console.log(
+  //     `当前版本为：${Color.cyan(versionList[0])}\n线上版本为: ${Color.darkRed(
+  //       versionList[1]
+  //     )}\n请保持一致`
+  //   );
   print(`请选择本次更新版本的类型`);
   let version = versionList[0];
   let a: any = 0,

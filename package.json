@@ -1,14 +1,14 @@
 {
   "name": "ixxx",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
   "description": "some command in terminal,not only delete file、publish npm package",
   "scripts": {
     "b": "rollup --config rollup.config.js && tsc -p tsconfig.types.json",
     "build": "npx ixxx rm exportCjs exportMjs exportTypes  run b",
     "clean": "npx ixxx up -d rm exportCjs exportMjs exportTypes  node_modules run npm install run b",
-    "test": "npx ixxx rm exportCjs exportMjs exportTypes run b  &&  node exportBin/index.js  git tag",
+    "test": "npx ixxx rm exportCjs exportMjs exportTypes run b  &&  node exportBin/index.js  up -n",
     "up": "npx ixxx up -n"
   },
   "files": [
