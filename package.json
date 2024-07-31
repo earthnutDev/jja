@@ -3,30 +3,26 @@
   "type": "module",
   "version": "0.0.3",
   "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
-  "description": "some command in terminal,not only delete file、publish npm package",
+  "description": "some command line code toolbox",
   "scripts": {
     "b": "rollup --config rollup.config.js && tsc -p tsconfig.types.json",
-    "build": "npx ixxx rm exportCjs exportMjs exportTypes  run b",
-    "clean": "npx ixxx up -d rm exportCjs exportMjs exportTypes  node_modules run npm install run b",
-    "test": "npx ixxx rm exportCjs exportMjs exportTypes run b  &&  node exportBin/index.js  git tag",
-    "up": "npx ixxx up -n"
+    "build": "node dist/bin/index.js  rm dist run b",
+    "clean": "node dist/bin/index.js up -d rm dist node_modules run npm install run b",
+    "diff": "node -d",
+    "test": "node dist/bin/index.js rm  test/out  && rollup --config rollup.config.test.js && node test/out/test/index.mjs",
+    "pkg": "node dist/bin/index.js pkg -u",
+    "beautify": "npx prettier . --write",
+    "eslint": "npx eslint src",
+    "up": "npm run  "
   },
   "files": [
-    "exportBin",
-    "exportCjs",
-    "exportMjs",
-    "exportTypes"
+    "bin",
+    "cjs",
+    "mjs",
+    "types"
   ],
   "keywords": [
-    "letmiseesee",
-    "lmssee",
-    "terminal",
-    "is-mi",
-    "ismi",
-    "ixxx",
-    "delete-files",
-    "npm-one-click-publish",
-    "clear-terminal-screen"
+    "ixxx"
   ],
   "license": "ISC",
   "repository": {
@@ -43,23 +39,29 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "ismi": "^0.0.0",
-    "ismi-command": "^0.0.7",
-    "ismi-js-tools": "^0.0.2",
-    "ismi-node-tools": "^0.0.5"
+    "a-command": "^0.0.0",
+    "a-js-tools": "^0.0.0",
+    "a-node-tools": "^0.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.6.0",
     "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@types/node": "^20.14.2",
-    "rollup": "^4.18.0",
+    "@types/node": "^20.14.10",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.2",
+    "rollup": "^4.18.1",
     "rollup-plugin-cleanup": "^3.2.1",
-    "typescript": "^5.4.5"
+    "rollup-plugin-copy": "^3.5.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.0"
   },
   "bin": {
-    "ixxx": "exportBin/index.js"
+    "ixxx": "bin/index.js"
   }
 }

@@ -25,16 +25,16 @@ defined two command , one is `remove` ，other is `update`
 
 ### remove
 
-you can use `npx ixxx  r  <filename>  <filename>  <...> ` to remove file or directory, and not worry "My Windows commands don't work on Mac OS " 、"I removed the folder on Windows and there were no errors in the file." (Not good, I put in a lot of effort to solve these two problems and added this small feature. I hope you like it.)
+you can use `npx ixxx  rm  <filename>  <filename>  <...> ` to remove file or directory, and not worry "My Windows commands don't work on Mac OS " 、"I removed the folder on Windows and there were no errors in the file." (Not good, I put in a lot of effort to solve these two problems and added this small feature. I hope you like it.)
 
 ```sh
-npx ixxx r <file name>
+npx ixxx rm <file name>
 ```
 
 _If you don't want to display the log information of this process, you can use `-i` to ignore it_
 
 ```sh
-npx ixxx r  -i <file name>
+npx ixxx rm  -i <file name>
 ```
 
 ### update
@@ -42,7 +42,7 @@ npx ixxx r  -i <file name>
 npm Every time a package upgrade occurs, it requires inputting a lot of commands and also considering the computer environment. I collapsed。。。。
 
 ```sh
-npx ixxx u
+npx ixxx up
 ```
 
 _Try to ensure that your features are complete and the git directory is clean before upgrading_
@@ -50,7 +50,7 @@ _Try to ensure that your features are complete and the git directory is clean be
 If you don't want to display the log information of this process, you can use `-i` to ignore it
 
 ```sh
-npx ixxx u  -i
+npx ixxx up  -i
 ```
 
 If you have any questions, you can directly [submit question](https://github.com/lmssee/ixxx/issues/new)

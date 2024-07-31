@@ -1,79 +1,61 @@
 import {
   Color,
   cursorMoveUp as moveUp,
-  fileExist,
   getDirectoryBy,
   getNpmPkgInfo,
   pathJoin,
   readFileToJsonSync,
   runOtherCode,
-  t,
-} from "ismi-node-tools";
-import { ParamsDataType } from "./types";
-import command from "./command";
+  cursorAfterClear,
+  _p,
+} from 'a-node-tools';
+import command from './command';
+import { ArgsMapItemType } from 'a-command/types/args';
 
 /** 到处包管理的绑定信息 */
 export const packageBind = {
-  "package <pkg>  (包管理)": [
-    "--diff <-d>  (分析当下包的差异，该功能很鸡肋，因为线上更新比较慢)",
-    `--upDependencies <-u> (更新依赖，跟 ${Color.random("npm update")} 一样)`,
+  'package <pkg>  (包管理)': [
+    '--diff <-d>  (分析当下包的差异，该功能很鸡肋，因为线上更新比较慢)',
+    `--upDependencies <-u> (更新依赖，跟 ${Color.random('npm update')} 一样)`,
   ],
 };
 
 /** 包管理的一些东西 */
-export async function packageManage(params: ParamsDataType) {
+export async function packageManage(params: ArgsMapItemType) {
   /** 依赖更新 */
-  if (params["--upDependencies"]) {
-    await updateDependence(true, params["--upDependencies"].values.length > 0);
-  } else if (params["--diff"]) {
+  if (params['--upDependencies']) {
+    await updateDependence(true);
+  } else if (params['--diff']) {
     /** 检测当前版本 */
     await diffPackage(true);
   } else {
     /** 其余的执行帮助文档 */
-    command.help("package");
+    command.help('package');
   }
 }
 
 /** 升级依赖 */
-export async function updateDependence(
-  log: boolean = true,
-  check: boolean = false
-) {
+export async function updateDependence(log: boolean = true) {
   // 判断当前目录下是否存在 package.json 文件
-  const cwd = getDirectoryBy("package.json", "file");
-  if (cwd == undefined)
-    return console.log("当前目录下不存在 package.json 文件");
+  const cwd = getDirectoryBy('package.json', 'file');
+  if (cwd == undefined) return _p('当前目录下不存在 package.json 文件');
   // 抓取依赖数据
   const dependencies =
-    readFileToJsonSync(pathJoin(cwd, "package.json")).dependencies || {};
-  log && console.log(Color.green("初始化完成，等待下一步命令"));
-  // 遍历查找依赖更新
-  for (let i = Object.keys(dependencies), j = i.length, k = 0; k < j; k++) {
-    const currentEle = i[k];
-    log && console.log(Color.cyan(`正在检测依赖 ${currentEle} 版本状态`));
-    /// 倘若要检测当前版本内容
-    if (check) {
-      const pkgInfo = await getNpmPkgInfo(currentEle);
-      /** 检测版本是否需要更新 */
-      if ((dependencies[currentEle] as string).endsWith(pkgInfo.version)) {
-        log && cursorMoveUp(`依赖 ${currentEle} 已是新版本，无需更新`);
-        continue;
-      }
-      log &&
-        console.log(
-          `依赖 ${currentEle} 当前版本（${dependencies[currentEle].replace(
-            /^.*?(\d.*)$/,
-            "$1"
-          )}），最新版本 （${pkgInfo.version}） `
-        );
+    readFileToJsonSync(pathJoin(cwd, 'package.json')).dependencies || {};
+  log && _p(Color.green('初始化完成，等待下一步命令'));
+  if (Object.keys(dependencies).length > 0) {
+    let upNpmString = `npm install --save`;
+    // 遍历查找依赖更新
+    for (let i = Object.keys(dependencies), j = i.length, k = 0; k < j; k++) {
+      const currentEle = i[k];
+      // npm 会自动把其安装在父级类文件夹下
+      upNpmString += `  ${currentEle}@latest  `;
     }
-    // npm 会自动把其安装在父级类文件夹下
-    await runOtherCode(`npm install ${currentEle}@latest --save`);
-    log && cursorMoveUp(Color.green(`依赖 ${currentEle} 更新完毕`));
+    await runOtherCode(upNpmString);
   }
-  log && console.log(Color.cyan(`正在更新 dev 依赖`));
+  log && _p(Color.cyan(`正在更新 dev 依赖`));
   // npm 会自动把其安装在父级类文件夹下
-  await runOtherCode({ code: `npm update --save` });
+  await runOtherCode(`npm update --save`);
   log && cursorMoveUp(`开发依赖更新完毕`);
 }
 
@@ -86,43 +68,47 @@ export async function updateDependence(
  */
 export async function diffPackage(log: boolean = false): Promise<string[]> {
   /// 当前工作目录
-  const currentWordDirectory = getDirectoryBy("package.json", "file");
+  const currentWordDirectory = getDirectoryBy('package.json', 'file');
   if (currentWordDirectory == undefined) return [];
   // 获取文件
   const packageInfo =
-    readFileToJsonSync(pathJoin(currentWordDirectory, "package.json")) || {};
+    readFileToJsonSync(pathJoin(currentWordDirectory, 'package.json')) || {};
   const name = packageInfo.name;
   const version = packageInfo.version;
   if (!version) {
-    console.log(
-      Color.fromHexadecimal(`未检测到当前包 ${name} 的版本号`, "#25f9aa")
-    );
+    _p(Color.fromHexadecimal(`未检测到当前包 ${name} 的版本号`, '#25f9aa'));
     return [];
   }
   const tempInfo = await getNpmPkgInfo(name);
+  if (Object.keys(tempInfo).length == 0) {
+    return [version];
+  }
   // 当前显示的包名与后台抓来的不一致，可能是当前包尚未发布。或者抓取错误
   if (tempInfo.name !== name) return [version];
-  log &&
-    console.log(Color.fromHexadecimal(`当前包本地版本为: ${version}`, "#931"));
-  log &&
-    console.log(
-      Color.fromHexadecimal(
-        " "
-          .repeat(6)
-          .concat(
-            `线上版本为: ${tempInfo.version} （${Color.fromRgb(
-              "线上更新有延迟",
-              "#668"
-            )}）`
-          ),
-        "#399"
-      )
+  if (log) {
+    /// 本地的版本展示
+    const localVersion = Color.fromHexadecimal(
+      `当前包本地版本为: ${version}`,
+      '#931',
     );
+    _p(localVersion);
+    const blankSpace = '\x20'.repeat(6);
+    // 线上版本
+    let onlineVersion = `${blankSpace}线上版本为：${tempInfo.version}`;
+    onlineVersion +=
+      tempInfo.version == version
+        ? ''
+        : Color.fromRgb('（线上更新有延迟）', '#668');
+    _p(Color.fromRgb(onlineVersion, '#399'));
+    
+    const publishTime = new Date(tempInfo.capsule.lastPublish.time).getTime();
+    _p(publishTime.toString());
+  }
   return [version, tempInfo.version];
 }
 /** 光标上移并清理该行 */
 function cursorMoveUp(message: string) {
   moveUp();
-  process.stderr.write(`${t}K`);
-  console.log(message);
+  cursorAfterClear();
+  _p(message);
 }

@@ -1,24 +1,24 @@
-import typescript from "@rollup/plugin-typescript";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import terser from "@rollup/plugin-terser";
-import cleanup from "rollup-plugin-cleanup";
+import typescript from '@rollup/plugin-typescript';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import cleanup from 'rollup-plugin-cleanup';
 
 export default {
-  input: "test/index.ts",
+  input: 'test/index.ts',
   output: [
     {
-      format: "es",
-      entryFileNames: "[name].mjs",
+      format: 'es',
+      entryFileNames: '[name].mjs',
       preserveModules: true,
       sourcemap: false,
-      exports: "named",
-      dir: "test/out",
+      exports: 'named',
+      dir: 'test/out',
     },
   ],
   // 配置需要排除的包
-  external: (id) => /^(node:)|^(tslib)|^(ismi-)/.test(id),
+  external: id =>
+    /^(node:)|^(tslib)|^(a-js-tools)|^(a-node-tools)|^(a-command)/.test(id),
   plugins: [
     resolve(),
     commonjs(),
