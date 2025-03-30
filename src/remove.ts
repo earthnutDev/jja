@@ -1,4 +1,5 @@
-import { _p, Color, fileExist, isWindows, runOtherCode } from 'a-node-tools';
+import { pen } from 'color-pen';
+import { _p, fileExist, isWindows, runOtherCode } from 'a-node-tools';
 import { Stats } from 'node:fs';
 import { ArgsMapItemType } from 'a-command/types/args';
 
@@ -39,29 +40,28 @@ export default async function (remove: ArgsMapItemType) {
 
   if (!removeData.log)
     _p(
-      Color.darkCyan(
+      pen.brightCyan(
         '当前系统为: '.concat(isWindows ? 'windows' : 'linux/mac'),
       ),
     );
-  delArr.length == 0 && _p(Color.random('没有待清理的文件/文件夹'));
+  delArr.length == 0 && _p(pen.random('没有待清理的文件/文件夹'));
   /// 反着清理
   while (delArr.length) await beforeRemove(delArr.pop() as string);
 }
 
 /** 移除文件前检测 */
 async function beforeRemove(element: string) {
-  !removeData.log && _p(Color.fromRgb(`当前清理文件为 ${element}`, '#336'));
+  !removeData.log && _p(pen.hex('#336')(`当前清理文件为 ${element}`));
   /**  仅作判断用 */
   const justForJudgment = fileExist(element);
-  !removeData.log &&
-    _p(Color.fromRgb(`正在检测 ${element} 文件/夹是否存在`, '#666'));
+  !removeData.log && _p(pen.hex('#666')(`正在检测 ${element} 文件/夹是否存在`));
   if (justForJudgment) {
     await wheelRun(
       removeFileOrDirectory as (...param: unknown[]) => Promise<boolean>,
       [element, justForJudgment],
     );
   } else {
-    !removeData.log && _p(Color.yellow(`${element} 文件不存在`));
+    !removeData.log && _p(pen.yellow(`${element} 文件不存在`));
   }
 }
 
@@ -73,7 +73,7 @@ async function wheelRun<T>(
 ): Promise<T> {
   const result = await Reflect.apply(callFn, undefined, params);
   if (!result && count--) {
-    _p(Color.green('执行失败，现在重试中'));
+    _p(pen.green('执行失败，现在重试中'));
     return (await wheelRun(callFn, params, count)) as T;
   }
   return await Reflect.apply(callFn, undefined, params);
@@ -84,8 +84,7 @@ async function removeFileOrDirectory(
   element: string,
   justForJudgment: Stats,
 ): Promise<boolean> {
-  !removeData.log &&
-    _p(Color.fromRgb(` ${element} 文件/夹存在，准备删除`, '#aaa'));
+  !removeData.log && _p(pen.hex('#aaa')(` ${element} 文件/夹存在，准备删除`));
   let result: {
     error: unknown;
     success?: boolean | undefined;

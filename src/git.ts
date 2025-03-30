@@ -1,8 +1,6 @@
 import { question, selection } from 'a-command';
-import { typeOf } from 'a-js-tools';
 import {
   _p,
-  Color,
   getDirectoryBy,
   pathJoin,
   readFileToJsonSync,
@@ -10,19 +8,26 @@ import {
 } from 'a-node-tools';
 import command from './command.js';
 import { ArgsMapItemType } from 'a-command/types/args';
+import pen from 'color-pen';
+import { isPlainObject } from 'a-type-of-js';
 
 export const gitBind = {
   'git   (一些关于 git 的操作)': [
-    `commit (git 提交代码，是 ${Color.red(
+    `commit (git 提交代码，是 ${pen.red(
       'commit',
-    )} 提交啊，不是 ${Color.fromRgb('push', '#666')} 推送)`,
+    )} 提交啊，不是 ${pen.hex('#666')('push')} 推送)`,
     'merge (合并两个分支)',
     'tag (给提交打上 tag)',
   ],
 };
 
+/**
+ *
+ *
+ *
+ */
 export default async function (params: ArgsMapItemType) {
-  if (typeOf(params) != 'object') params = { value: [] };
+  if (isPlainObject(params)) params = { value: [] };
   /** 提交代码 */
   if (params.commit) {
     await gitCommit(params.commit.join(' '));
@@ -47,12 +52,7 @@ export async function gitCommit(
   /// 检测当前目录下有没有  .git  文件夹
   const cwd = getDirectoryBy('.git', 'directory');
   if (cwd == undefined) {
-    return _p(
-      Color.fromHexadecimal(
-        'not a git repository（当前目录非 git 储存库）',
-        '#ff0',
-      ),
-    );
+    return _p(pen.hex('#ff0')('not a git repository（当前目录非 git 储存库）'));
   }
   const addResult = await runOtherCode({ code: 'git add .', cwd });
   // 倘若没有成功，可能是执行目录下没有  .git

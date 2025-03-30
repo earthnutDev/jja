@@ -1,5 +1,4 @@
 import {
-  Color,
   cursorMoveUp as moveUp,
   getDirectoryBy,
   getNpmPkgInfo,
@@ -11,12 +10,13 @@ import {
 } from 'a-node-tools';
 import command from './command';
 import { ArgsMapItemType } from 'a-command/types/args';
+import pen from 'color-pen';
 
 /** 到处包管理的绑定信息 */
 export const packageBind = {
   'package <pkg>  (包管理)': [
     '--diff <-d>  (分析当下包的差异，该功能很鸡肋，因为线上更新比较慢)',
-    `--upDependencies <-u> (更新依赖，跟 ${Color.random('npm update')} 一样)`,
+    `--upDependencies <-u> (更新依赖，跟 ${pen.random('npm update')} 一样)`,
   ],
 };
 
@@ -42,7 +42,7 @@ export async function updateDependence(log: boolean = true) {
   // 抓取依赖数据
   const dependencies =
     readFileToJsonSync(pathJoin(cwd, 'package.json')).dependencies || {};
-  log && _p(Color.green('初始化完成，等待下一步命令'));
+  log && _p(pen.green('初始化完成，等待下一步命令'));
   if (Object.keys(dependencies).length > 0) {
     let upNpmString = `npm install --save`;
     // 遍历查找依赖更新
@@ -53,7 +53,7 @@ export async function updateDependence(log: boolean = true) {
     }
     await runOtherCode(upNpmString);
   }
-  log && _p(Color.cyan(`正在更新 dev 依赖`));
+  log && _p(pen.cyan(`正在更新 dev 依赖`));
   // npm 会自动把其安装在父级类文件夹下
   await runOtherCode(`npm update --save`);
   log && cursorMoveUp(`开发依赖更新完毕`);
@@ -76,7 +76,7 @@ export async function diffPackage(log: boolean = false): Promise<string[]> {
   const name = packageInfo.name;
   const version = packageInfo.version;
   if (!version) {
-    _p(Color.fromHexadecimal(`未检测到当前包 ${name} 的版本号`, '#25f9aa'));
+    _p(pen.hex('#25f9aa')(`未检测到当前包 ${name} 的版本号`));
     return [];
   }
   const tempInfo = await getNpmPkgInfo(name);
@@ -87,20 +87,15 @@ export async function diffPackage(log: boolean = false): Promise<string[]> {
   if (tempInfo.name !== name) return [version];
   if (log) {
     /// 本地的版本展示
-    const localVersion = Color.fromHexadecimal(
-      `当前包本地版本为: ${version}`,
-      '#931',
-    );
+    const localVersion = pen.hex('#931')(`当前包本地版本为: ${version}`);
     _p(localVersion);
     const blankSpace = '\x20'.repeat(6);
     // 线上版本
     let onlineVersion = `${blankSpace}线上版本为：${tempInfo.version}`;
     onlineVersion +=
-      tempInfo.version == version
-        ? ''
-        : Color.fromRgb('（线上更新有延迟）', '#668');
-    _p(Color.fromRgb(onlineVersion, '#399'));
-    
+      tempInfo.version == version ? '' : pen.hex('#668')('（线上更新有延迟）');
+    _p(pen.hex('#399')(onlineVersion));
+
     const publishTime = new Date(tempInfo.capsule.lastPublish.time).getTime();
     _p(publishTime.toString());
   }

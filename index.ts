@@ -1,4 +1,4 @@
-import { runOther, runOtherBind } from './src/runOther';
+import { runOther } from './src/todo/runOther';
 import command from 'src/command';
 import remove, { removeBind } from './src/remove';
 import update, { updateBind } from './src/update';
@@ -14,12 +14,10 @@ command
     ...packageBind,
     ...clearScreenBind,
     ...gitBind,
-    ...runOtherBind,
+    // ...runOtherBind,
   })
   .run().isEnd.end;
 
-/**  获取用户参数 （由于插件 ismi-command 内部错误，这里添加了判断，倘若依赖更新，这里可视情况去除） */
-// const arg = (process.argv.slice(2).length > 0 && command.args.$arrMap) || [];
 const arg = command.args.$arrMap;
 
 /** 根据用户的参数 */

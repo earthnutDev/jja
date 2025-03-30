@@ -7,7 +7,7 @@ export const clearScreenBind = {
   'clearTerminal  <clear>  (清理终端显示屏幕，同 clearScreen )': '',
 };
 
-/*** 导出清理屏幕 */
+/** 导出清理屏幕 */
 export async function clearScreen() {
   execSync(isWindows ? 'cls' : 'clear', { stdio: [0, 1, 2] });
 }
