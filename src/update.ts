@@ -68,7 +68,7 @@ async function updateNpm() {
   }
   print(greenPen(`打包完成`));
   /** 版本预估 */
-  if (!(await versionMange())) command.end;
+  if (!(await versionMange())) command.error;
   print(greenPen(`版本整理完毕，准备上到 npm`));
   // 整理 git
   if (
@@ -94,7 +94,7 @@ async function manageGit(commitMessage: string) {
 /** 未来版本预估 */
 async function versionMange(): Promise<boolean | void> {
   const cwd = getDirectoryBy('package.json', 'file');
-  if (cwd == undefined) return _p('当前工作目录下或父级存在 package.json');
+  if (cwd == undefined) return _p('当前工作目录下或父级不存在 package.json');
   const versionList = await diffPackage();
   // 未获取目标
   if (versionList.length < 2) return versionList.length == 1;
@@ -115,6 +115,7 @@ async function versionMange(): Promise<boolean | void> {
   [a, b, c] = (a as string).split('.');
   // 转化为数值参与运算
   (a = Number(a)), (b = Number(b)), (c = Number(c));
+
   const selectVersionType = (await selection([
     `bug  (patch) v${version} -> ${a}.${b}.${d == undefined ? c + 1 : c}`,
     `新内容 (minor) v${version} -> ${a}.${b + 1}.0`,
