@@ -1,4 +1,4 @@
-import { isWindows } from 'a-node-tools';
+import { _p, isTTY, isWindows } from 'a-node-tools';
 import { execSync } from 'node:child_process';
 
 /** 到处清理屏幕的信息 */
@@ -9,5 +9,9 @@ export const clearScreenBind = {
 
 /** 导出清理屏幕 */
 export async function clearScreen() {
-  execSync(isWindows ? 'cls' : 'clear', { stdio: [0, 1, 2] });
+  if (isTTY()) {
+    execSync(isWindows ? 'cls' : 'clear', { stdio: [0, 1, 2] });
+  } else {
+    _p('当前环境不支持 ');
+  }
 }
