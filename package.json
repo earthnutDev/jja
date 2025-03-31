@@ -1,7 +1,7 @@
 {
   "name": "jja",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "author": {
     "name": "earthnut",
@@ -14,7 +14,7 @@
     "build": "rollup --config rollup.config.js&&npm run clean:package",
     "clean:package": "node scripts/clean-package-json.js",
     "eslint": "npx eslint src",
-    "dev": "npm run build && node dist/bin/index.js cls",
+    "dev": "npm run build && node dist/bin/index.js up -n",
     "prettier": "prettier --write .",
     "push:version": "gvv",
     "push:submit": "gvv",
