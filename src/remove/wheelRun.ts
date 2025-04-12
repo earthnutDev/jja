@@ -1,0 +1,16 @@
+import { _p } from 'a-node-tools';
+import pen from 'color-pen';
+
+/** 轮回执行 */
+export async function wheelRun<T>(
+  callFn: (...param: unknown[]) => T,
+  params: unknown[],
+  count: number = 5,
+): Promise<T> {
+  const result = await Reflect.apply(callFn, undefined, params);
+  if (!result && count--) {
+    _p(pen.green('执行失败，现在重试中'));
+    return (await wheelRun(callFn, params, count)) as T;
+  }
+  return await Reflect.apply(callFn, undefined, params);
+}

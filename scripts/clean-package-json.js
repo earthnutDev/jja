@@ -1,14 +1,62 @@
-import { pathJoin, readFileToJsonSync } from 'a-node-tools';
+import {
+  pathJoin,
+  readFileToJsonSync,
+  getDirectoryBy,
+  writeJsonFile,
+  runOtherCode,
+} from 'a-node-tools';
+
 import { writeFileSync } from 'node:fs';
 
-const packageJson = readFileToJsonSync('./package.json');
+let packageJson = readFileToJsonSync('./package.json');
 
-delete packageJson.scripts;
-delete packageJson.devDependencies;
-delete packageJson['lint-staged'];
-delete packageJson.private;
+['scripts', 'devDependencies', 'lint-staged', 'private'].forEach(
+  key => delete packageJson[key],
+);
+packageJson = {
+  ...packageJson,
+  author: {
+    name: '🥜',
+    email: 'earthnut.dev@outlook.com',
+    url: 'https://earthnut.dev',
+  },
+  files: ['bin.js', 'mjs'],
+  keywords: ['ixxx', 'jja'],
+  repository: {
+    type: 'git',
+    url: 'git+https://github.com/earthnutDev/jja.git',
+  },
+  homepage: 'https://earthnut.dev/jja',
+  bugs: {
+    url: 'https://github.com/earthnutDev/jja/issues',
+    email: 'earthnut.dev@outlook.com',
+  },
+  publishConfig: {
+    access: 'public',
+    registry: 'https://registry.npmjs.org/',
+  },
+  bin: {
+    jja: 'bin.js',
+  },
+};
 
-// eslint-disable-next-line no-undef
-const distPath = pathJoin(process.cwd(), './dist/package.json');
+// 写入 dist/package.json
+{
+  const distPath = getDirectoryBy('dist', 'directory');
 
-writeFileSync(distPath, JSON.stringify(packageJson, null, 2));
+  const distPackagePath = pathJoin(distPath, './dist/package.json');
+
+  writeJsonFile(distPackagePath, packageJson);
+}
+
+// 写入 dist/bin.js
+{
+  await runOtherCode({ code: 'mkdir -p ./dist' });
+  writeFileSync(
+    'dist/bin.js',
+    `#!/usr/bin/env node
+
+import './mjs/index.mjs';
+  `,
+  );
+}

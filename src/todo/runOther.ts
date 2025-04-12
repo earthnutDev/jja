@@ -1,4 +1,4 @@
-import type { ArgsMapItemType } from 'a-command/types/args';
+import type { ArgsArrMapItemType } from 'a-command/types/args';
 import { readFileToJsonSync, runOtherCode } from 'a-node-tools';
 
 /** 导出一个绑定  */
@@ -8,7 +8,7 @@ export const runOtherBind = {
 };
 
 /** 导出执行其他代码 */
-export async function runOther(runOther: ArgsMapItemType) {
+export async function runOther(runOther: ArgsArrMapItemType) {
   const { value } = runOther;
   if (value.length == 0) return;
 

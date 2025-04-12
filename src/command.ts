@@ -1,4 +1,37 @@
 import { Command } from 'a-command';
+import pen from 'color-pen';
+import { ArgsArrMapItemList } from './types';
 
 // 初始化一个命令
-export default new Command('jja');
+export const command = new Command<ArgsArrMapItemList>('jja');
+
+command
+  .bind({
+    'package <pkg>  (包管理)': [
+      '--diff <-d>  (分析当下包的差异，该功能很鸡肋，因为线上更新比较慢)',
+      `--upDependencies <-u> (更新依赖，强制更新到 'latest',使用需谨慎)`,
+    ],
+    /** 导出删除文件的绑定信息    */
+    'remove <rm> (做一个简单的兼容的移除文件或文件夹的命令)': [
+      '--ignore <-i> (不打印日志（默认打印的）)',
+      '--subdirectories <-s> (这是一个危险的命令，用于 windows 下递归删除执行命令下所有的给定文件名称)',
+    ],
+    /** 导出绑定信息，放这个文件夹为了方便看 */
+    'update <up> (做一个简单的 npm 升级程序，对，简单的)': [
+      '--ignore <-i> (不建议你这么用,你会发现你像个傻子一样在那等结果)',
+      `--dependencies <-d> (更新依赖，跟 ${pen.random('npm update')} 一样)`,
+      // '--npm-publish <-n> (用于 npm 包的升级)',
+    ],
+    /** 到处清理屏幕的信息 */
+    'clearScreen <cls> (清理终端显示屏幕，同 clearTerminal )': '',
+    'clearTerminal  <clear>  (清理终端显示屏幕，同 clearScreen )': '',
+    'git   (一些关于 git 的操作)': [
+      `commit (git 提交代码，是 ${pen.red(
+        'commit',
+      )} 提交啊，不是 ${pen.hex('#666')('push')} 推送)`,
+      'merge (合并两个分支)',
+      'tag (给提交打上 tag)',
+    ],
+  })
+  .run()
+  .isEnd(true);
