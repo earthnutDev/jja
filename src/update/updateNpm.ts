@@ -31,11 +31,11 @@ export async function updateNpm() {
   const rebuild = await runOtherCode('npm run build');
 
   if (!rebuild.success) {
-    return command.error;
+    return command.error();
   }
   print(greenPen(`打包测试完成`));
   /** 版本预估 */
-  if (!(await versionMange())) return command.error;
+  if (!(await versionMange())) return command.error();
 
   print(greenPen(`版本整理完毕，准备上到 npm`));
   // 整理 git
