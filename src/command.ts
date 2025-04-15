@@ -8,7 +8,7 @@ export const command = new Command<ArgsArrMapItemList>('jja');
 command
   .bind({
     'package <pkg>  (包管理)': [
-      '--diff <-d>  (分析当下包的差异，该功能很鸡肋，因为线上更新比较慢)',
+      '--diff <-d>  (分析当下包的差异)',
       `--upDependencies <-u> (更新依赖，强制更新到 'latest',使用需谨慎)`,
     ],
     /** 导出删除文件的绑定信息    */

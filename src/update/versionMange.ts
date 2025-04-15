@@ -3,15 +3,16 @@ import { _p, getDirectoryBy, runOtherCode } from 'a-node-tools';
 import pen from 'color-pen';
 import { print } from './print';
 import { greenPen } from 'src/greenPen';
-import { diffPackage } from 'src/package/diffPackage';
+
+import { getVersion } from 'src/package/diff/getVersion';
 
 /** 未来版本预估 */
 export async function versionMange(): Promise<boolean | void> {
   const cwd = getDirectoryBy('package.json', 'file');
   if (cwd == undefined) return _p('当前工作目录下或父级不存在 package.json');
-  const versionList = await diffPackage();
+  const versionList = await getVersion();
   // 未获取目标
-  if (versionList.length < 2) return versionList.length == 1;
+  if (versionList[0] === '' && versionList[1] === '') return false;
   else if (versionList[0] != versionList[1]) {
     _p(
       `当前版本为：${pen.cyan(versionList[0])}\n线上版本为: ${pen.brightRed(

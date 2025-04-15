@@ -1,5 +1,5 @@
 import { command } from 'src/command';
-import { diffPackage } from './diffPackage';
+import { diffPackage } from './diff';
 import { updateDependence } from './updateDependence';
 
 /**
@@ -16,7 +16,7 @@ export async function wheel(params: {
     await updateDependence(true);
   } else if (params['--diff']) {
     /** 检测当前版本 */
-    await diffPackage(true);
+    await diffPackage();
   } else {
     /** 其余的执行帮助文档 */
     command.help('package');

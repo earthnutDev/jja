@@ -1,3 +1,11 @@
+/****************************************************************************
+ *  @Author earthnut
+ *  @Email earthnut.dev@outlook.com
+ *  @ProjectName jja
+ *  @FileName updateNpm.ts
+ *  @CreateDate  周二  04/15/2025
+ *  @Description 该模块已彻底移除，该模块已废弃，所有功能已移到 `vjj`
+ ****************************************************************************/
 import { pen } from 'color-pen';
 
 import { print } from './print';

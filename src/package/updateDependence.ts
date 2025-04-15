@@ -6,9 +6,14 @@ import {
   runOtherCode,
 } from 'a-node-tools';
 import pen from 'color-pen';
-import { cursorMoveUp } from './cursorMoveUp';
+import { cursorMoveUp } from './utils';
 
-/** 升级依赖 */
+/**
+ *
+ *  升级依赖
+ *
+ * @param [log=true]  是否打印更新依赖的原始打印消息
+ */
 export async function updateDependence(log: boolean = true) {
   // 判断当前目录下是否存在 package.json 文件
   const cwd = getDirectoryBy('package.json', 'file');
