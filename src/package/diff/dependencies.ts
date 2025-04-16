@@ -25,7 +25,7 @@ export async function dependencies(localInfo: PackageJson) {
   _p(result);
   _p(
     pen.brightRed(
-      `仅关注版本号是否为最新 ${pen.brightMagenta('latest')} \n更新有风险，且更且珍惜`,
+      `仅关注版本号是否为最新 ${pen.brightMagenta('latest')}\n不关心是否是最佳依赖版本\n更新有风险，且更且珍惜`,
     ),
   );
   _p('使用 npm install --save 命令安装更新');

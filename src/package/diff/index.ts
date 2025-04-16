@@ -24,19 +24,20 @@ export async function diffPackage(): Promise<void> {
   const localVersion = pen.hex('#931')(`当前包本地版本为: ${version}`);
   _p(localVersion);
   if (isNull(onlineInfo)) {
-    return _p(pen.hex('#399')(`未获取当前包的线上信息`));
+    _p(pen.hex('#399')(`未获取当前包的线上信息`));
+  } else {
+    const blankSpace = '\x20'.repeat(6);
+    // 线上版本
+    const onlineVersionStr = `${blankSpace}线上版本为：${onlineVersion}@latest`;
+
+    _p(pen.hex('#399')(onlineVersionStr));
+
+    const publishTime = new Date(
+      (onlineInfo && onlineInfo.time.modified) || '',
+    ).toLocaleString();
+
+    _p(publishTime.toString());
   }
-  const blankSpace = '\x20'.repeat(6);
-  // 线上版本
-  const onlineVersionStr = `${blankSpace}线上版本为：${onlineVersion}@latest`;
-
-  _p(pen.hex('#399')(onlineVersionStr));
-
-  const publishTime = new Date(
-    (onlineInfo && onlineInfo.time.modified) || '',
-  ).toLocaleString();
-
-  _p(publishTime.toString());
 
   await dependencies(localInfo);
 }
