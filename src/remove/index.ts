@@ -1,3 +1,4 @@
+import { dog } from './../dog';
 import { pen } from 'color-pen';
 import { _p, isWindows } from 'a-node-tools';
 import { ArgsArrMapItemType } from 'a-command/types/args';
@@ -26,15 +27,19 @@ export async function remove(params: ArgsArrMapItemType<removeParam>) {
     }
   });
 
-  if (!removeData.log)
-    _p(
-      pen.brightCyan(
-        '当前系统为: '.concat(isWindows ? 'windows' : 'linux/mac'),
-      ),
-    );
+  if (!removeData.log) {
+    _p(pen.brightCyan`当前系统为: ${isWindows ? 'windows' : 'linux/mac'}`);
+  }
   if (delArr.length == 0) {
+    dog.warn('待删除列表', delArr);
     _p(pen.random('没有待清理的文件/文件夹'));
   }
-  /// 反着清理
-  while (delArr.length) await beforeRemove(delArr.pop() as string);
+  /// 反着清理（这里并没有使用 wheel 执行，而是简单的 while 循环）
+  while (delArr.length) {
+    let currentEle = delArr.pop();
+
+    currentEle = currentEle === undefined ? 'undefined' : currentEle.toString();
+
+    await beforeRemove(currentEle);
+  }
 }

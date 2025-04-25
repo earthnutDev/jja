@@ -1,3 +1,4 @@
+import { dog } from './../dog';
 import { command } from '../command';
 import { ArgsArrMapItemType } from 'a-command/types/args';
 import { packageParam } from '../types';
@@ -7,6 +8,7 @@ import { wheel } from './wheel';
 /** 包管理的一些东西 */
 export async function packageManage(params: ArgsArrMapItemType<packageParam>) {
   if (isUndefined(params.options) || params.options.length == 0) {
+    dog.warn('没有参数输入');
     return command.help('package');
   }
 

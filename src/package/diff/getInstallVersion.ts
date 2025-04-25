@@ -1,4 +1,7 @@
+import { dog } from './../../dog';
 import { PackageJson, pathJoin, readFileToJsonSync } from 'a-node-tools';
+import { isNull } from 'a-type-of-js';
+import { diffData } from './data-store';
 
 /**
  *
@@ -6,9 +9,17 @@ import { PackageJson, pathJoin, readFileToJsonSync } from 'a-node-tools';
  *
  */
 export function getInstallVersion(pkgName: string) {
-  const result: PackageJson = readFileToJsonSync(
+  const result = readFileToJsonSync<PackageJson>(
     pathJoin('node_modules/', pkgName, 'package.json'),
   );
+  let version = '';
+  if (isNull(result)) {
+    version = '';
+  } else {
+    version = result.version || '';
+  }
 
-  return result.version || '';
+  diffData.dependencies[pkgName].localVersion = version;
+  dog(pkgName, '本地安装的版本为：', version);
+  return version;
 }

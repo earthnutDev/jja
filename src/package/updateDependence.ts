@@ -1,6 +1,7 @@
 import {
   _p,
   getDirectoryBy,
+  PackageJson,
   pathJoin,
   readFileToJsonSync,
   runOtherCode,
@@ -20,7 +21,8 @@ export async function updateDependence(log: boolean = true) {
   if (cwd == undefined) return _p('当前目录下不存在 package.json 文件');
   // 抓取依赖数据
   const dependencies =
-    readFileToJsonSync(pathJoin(cwd, 'package.json')).dependencies || {};
+    readFileToJsonSync<PackageJson>(pathJoin(cwd, 'package.json'))
+      ?.dependencies || {};
   if (log) {
     _p(pen.green('初始化完成，等待下一步命令'));
   }

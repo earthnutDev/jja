@@ -6,7 +6,7 @@ import terser from '@rollup/plugin-terser';
 import cleanup from 'rollup-plugin-cleanup';
 import copy from 'rollup-plugin-copy';
 /** 配置需要不打包进生产包的包名配置  */
-const excludedPkg = ['node:', 'a-', 'color-pen'];
+const excludedPkg = ['node:', 'a-', 'color-pen', '@qqi'];
 
 export default {
   input: './index.ts',

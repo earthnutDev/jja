@@ -1,6 +1,7 @@
 import { Command } from 'a-command';
 import pen from 'color-pen';
 import { ArgsArrMapItemList } from './types';
+import { dog } from './dog';
 
 // 初始化一个命令
 export const command = new Command<ArgsArrMapItemList>('jja');
@@ -33,5 +34,9 @@ command
       'tag (给提交打上 tag)',
     ],
   })
-  .run()
-  .isEnd(true);
+  .run();
+
+dog('参数已绑定，且已解析用户参数', command.args);
+dog.warn('当前的执行状态', command.state);
+
+command.isEnd(true);

@@ -20,7 +20,10 @@ export async function removeFileOrDirectory(
 
   if (isWindows) {
     if (justForJudgment.isDirectory()) {
-      result = await runOtherCode(`rd /q /s  ${element.replace(/\//, '\\')}`);
+      result = await runOtherCode({
+        code: `rd /q /s  ${element.replace(/\//, '\\')}`,
+        printLog: false,
+      });
       removeResult(element, result.success);
       // rmdirSync(element, { force: true, recursive: true });
     } else if (justForJudgment.isFile()) {
@@ -29,12 +32,14 @@ export async function removeFileOrDirectory(
         code: `del  ${
           removeData.subdirectories ? '/s' : ''
         }  /q  ${element.replace(/\//, '\\')}`,
+        printLog: false,
       });
       removeResult(element, result.success);
     }
   } else {
     result = await runOtherCode({
       code: `rm -rf  ${element.replace(/\\/, '/')}`,
+      printLog: false,
     });
     removeResult(element, result.success);
   }

@@ -1,17 +1,30 @@
-import { _p, isTTY } from 'a-node-tools';
-import readline from 'node:readline';
+import {
+  _p,
+  cursorAfterClear,
+  cursorMoveUp,
+  isTTY,
+  isWindows,
+  runOtherCode,
+} from 'a-node-tools';
+import { csi } from 'color-pen';
+import { dog } from './dog';
 
 /** 导出清理屏幕 */
-export function clearScreen() {
+export async function clearScreen() {
   if (isTTY()) {
-    // console.log(t.length);
-    // cursorMoveUp(10000);
-    // _p(`${t[0]}c${t}2J${t[0]}c`, false);
-    const blank = '\n'.repeat(process.stdout.rows);
-    console.log(blank);
-    readline.cursorTo(process.stdout, 0, 0);
-    readline.clearScreenDown(process.stdout);
+    dog('执行第一遍清理');
+    await runOtherCode({ code: isWindows ? 'cls' : 'clear', printLog: false });
+    dog('执行第二遍清理');
+    await runOtherCode({
+      code: isWindows
+        ? 'cls'
+        : `printf '${['2J', '3J', 'H'].map(e => csi.concat(e)).join()}'`,
+      printLog: false,
+    });
+    cursorMoveUp(Infinity);
+    cursorAfterClear(true);
   } else {
+    dog.warn('当前系统不支持 TTY');
     _p('当前环境不支持 ');
   }
 }

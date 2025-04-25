@@ -1,3 +1,4 @@
+import { dog } from './../../dog';
 import {
   getDirectoryBy,
   getNpmPkgInfo,
@@ -6,7 +7,8 @@ import {
   pathJoin,
   readFileToJsonSync,
 } from 'a-node-tools';
-import { isUndefined } from 'a-type-of-js';
+import { isNull, isUndefined } from 'a-type-of-js';
+import { diffData } from './data-store';
 
 /**
  *
@@ -17,26 +19,29 @@ import { isUndefined } from 'a-type-of-js';
  * 为了兼容 ts ，不更改返回值的类型
  *
  */
-export async function getVersion(): Promise<
-  [string, string, PackageJson | null, npmPkgInfoType | null]
-> {
+export async function getVersion(): Promise<void> {
   /// 当前工作目录
   const currentWordDirectory = getDirectoryBy('package.json', 'file');
 
-  if (isUndefined(currentWordDirectory)) return ['', '', null, null];
+  if (isUndefined(currentWordDirectory)) {
+    dog.warn('未找到当前包的 package.json 文件的位置');
+    return;
+  }
   // 获取文件
-  const packageInfo: PackageJson =
-    readFileToJsonSync(pathJoin(currentWordDirectory, 'package.json')) || {};
+  const packageInfo = readFileToJsonSync<PackageJson>(
+    pathJoin(currentWordDirectory, 'package.json'),
+  );
 
-  const name = packageInfo.name;
-  const version = packageInfo.version;
+  if (isNull(packageInfo)) {
+    dog.error('未找到当前包的 package.json 文件，改事件发生的概率极低');
+    return;
+  }
+
+  /**  包名  */
+  const name = packageInfo.name || '';
 
   const inlineInfo: npmPkgInfoType | null = await getNpmPkgInfo(name, '淘宝');
 
-  return [
-    version || '',
-    (inlineInfo && inlineInfo.version) || '',
-    packageInfo,
-    inlineInfo,
-  ];
+  diffData.local = packageInfo;
+  diffData.online = inlineInfo;
 }

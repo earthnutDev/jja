@@ -1,21 +1,30 @@
+import { dog } from './../../dog';
 import { getNpmPkgInfo, npmPkgInfoType } from 'a-node-tools';
 import { isNull } from 'a-type-of-js';
+import { diffData } from './data-store';
 
 /**
  * 获取给定包的最新版本号
  */
 export async function getLatestVersion(pkgName: string) {
-  const result: npmPkgInfoType | null = await getNpmPkgInfo(pkgName);
-  if (isNull(result)) {
-    return ['', ''];
+  const response: npmPkgInfoType | null = await getNpmPkgInfo(pkgName);
+
+  // 非空验证
+  if (isNull(response)) {
+    dog.warn('获取包信息失败');
+    return;
   }
 
-  const { 'dist-tags': tags, time } = result;
+  const pkgInfo = diffData.dependencies[pkgName];
+
+  const { 'dist-tags': tags, time } = response;
 
   /**  最后发布的版本  */
-  let lastVersion: string = result.version,
-    /**  最后发布的标签  */
-    lastTag: string = 'latest';
+  let lastVersion: string = response.version,
+    lastTag = 'latest';
+
+  pkgInfo.onlineVersion = lastVersion;
+  pkgInfo.tag = lastTag;
 
   const tagKey = Object.keys(tags);
 
@@ -27,10 +36,9 @@ export async function getLatestVersion(pkgName: string) {
       lastTag = tag;
     }
   }
-
-  if (lastTag === 'latest') {
-    return [result.version, ''];
-  } else {
-    return [result.version, lastVersion];
+  if (lastTag !== 'latest') {
+    dog(pkgName, '最新版本为：', lastVersion, 'tag为：', lastTag);
+    pkgInfo.tag = lastTag;
+    pkgInfo.latestVersion = lastVersion;
   }
 }
