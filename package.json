@@ -1,7 +1,7 @@
 {
   "name": "jja",
   "type": "module",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "private": true,
   "description": "一些在终端的执行动作 🥜",
   "scripts": {

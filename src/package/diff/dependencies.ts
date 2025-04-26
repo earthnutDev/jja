@@ -74,14 +74,12 @@ export async function dependencies() {
       _p(`npm install --save ${radicals.join(' ')}`);
       _p();
     }
-    // 判断 < 说明有重叠， 判断 === 0 是在上一个不会被打印出来时保证有关于予发布版本
-    if (latestDependence.length === 0 || conservatives.length < allLen) {
-      _p();
-      _p(pen.brightMagenta.reversed`保守派（latest 版本优先）安装手法：`);
-      _p();
-      _p(`npm install --save ${conservatives.join(' ')}`);
-      _p();
-    }
+
+    _p();
+    _p(pen.brightMagenta.reversed`保守派（latest 版本优先）安装手法：`);
+    _p();
+    _p(`npm install --save ${conservatives.join(' ')}`);
+    _p();
   }
 
   if (latestDependence.length > 0) {
