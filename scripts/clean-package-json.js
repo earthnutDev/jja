@@ -20,7 +20,7 @@ packageJson = {
     email: 'earthnut.dev@outlook.com',
     url: 'https://earthnut.dev',
   },
-  files: ['bin.js', 'mjs'],
+  files: ['bin.js', 'src', 'index.mjs'],
   keywords: ['ixxx', 'jja'],
   repository: {
     type: 'git',
@@ -56,7 +56,7 @@ packageJson = {
     'dist/bin.js',
     `#!/usr/bin/env node
 
-import './mjs/index.mjs';
+import './index.mjs';
   `,
   );
 }

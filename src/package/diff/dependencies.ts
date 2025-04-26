@@ -52,6 +52,7 @@ export async function dependencies() {
   ];
   /**  保皇派  */
   const royalist = latestDependence.map(i => i.concat('@latest'));
+
   /** 保守派   */
   const conservatives = [
     ...latestDependence.map(i => i.concat('@latest')),
@@ -60,20 +61,34 @@ export async function dependencies() {
       .map(i => `${i}@${dependenceList[i].tag}`),
   ];
 
-  if (preReleaseDependence.length > 0) {
-    _p(pen.brightRed.reversed`激进派（预发布版本优先）安装手法：`);
-    _p(`npm install --save ${radicals.join(' ')}`);
+  if (
+    // 预发布的数量高于 0
+    preReleaseDependence.length > 0
+  ) {
+    const allLen = preReleaseDependence.length + latestDependence.length;
+    // 有重叠才可以
+    if (radicals.length < allLen) {
+      _p();
+      _p(pen.brightRed.reversed`激进派（预发布版本优先）安装手法：`);
+      _p();
+      _p(`npm install --save ${radicals.join(' ')}`);
+      _p();
+    }
+    // 判断 < 说明有重叠， 判断 === 0 是在上一个不会被打印出来时保证有关于予发布版本
+    if (latestDependence.length === 0 || conservatives.length < allLen) {
+      _p();
+      _p(pen.brightMagenta.reversed`保守派（latest 版本优先）安装手法：`);
+      _p();
+      _p(`npm install --save ${conservatives.join(' ')}`);
+      _p();
+    }
   }
 
-  if (
-    conservatives.length > latestDependence.length &&
-    conservatives.length > preReleaseDependence.length
-  ) {
-    _p(pen.brightMagenta.reversed`保守派（latest 版本优先）安装手法：`);
-    _p(`npm install --save ${conservatives.join(' ')}`);
-  }
   if (latestDependence.length > 0) {
+    _p();
     _p(pen.brightGreen.reversed`保皇派（最推荐的）稳妥安装：`);
+    _p();
     _p(`npm install --save ${royalist.join(' ')}`);
+    _p();
   }
 }
