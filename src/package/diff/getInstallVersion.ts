@@ -19,7 +19,7 @@ export function getInstallVersion(pkgName: string) {
     version = result.version || '';
   }
 
-  diffData.dependencies[pkgName].localVersion = version;
+  diffData.dependenceList[pkgName].localVersion = version;
   dog(pkgName, '本地安装的版本为：', version);
   return version;
 }

@@ -1,3 +1,4 @@
+import { cyanPen, greenPen } from './../pen';
 import {
   _p,
   getDirectoryBy,
@@ -6,7 +7,7 @@ import {
   readFileToJsonSync,
   runOtherCode,
 } from 'a-node-tools';
-import pen from 'color-pen';
+
 import { cursorMoveUp } from './utils';
 
 /**
@@ -24,7 +25,7 @@ export async function updateDependence(log: boolean = true) {
     readFileToJsonSync<PackageJson>(pathJoin(cwd, 'package.json'))
       ?.dependencies || {};
   if (log) {
-    _p(pen.green('初始化完成，等待下一步命令'));
+    _p(greenPen('初始化完成，等待下一步命令'));
   }
   if (Object.keys(dependencies).length > 0) {
     let upNpmString = `npm install --save`;
@@ -37,7 +38,7 @@ export async function updateDependence(log: boolean = true) {
     await runOtherCode(upNpmString);
   }
   if (log) {
-    _p(pen.cyan(`正在更新 dev 依赖`));
+    _p(cyanPen(`正在更新 dev 依赖`));
   }
   // npm 会自动把其安装在父级类文件夹下
   await runOtherCode(`npm update --save`);

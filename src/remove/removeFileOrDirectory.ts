@@ -1,8 +1,8 @@
 import { Stats } from 'node:fs';
 import { removeData } from './removeData';
-import pen from 'color-pen';
 import { _p, isWindows, runOtherCode } from 'a-node-tools';
 import { removeResult } from './removeResult';
+import { hexPen } from '../pen';
 
 /** 移除文件或是目录 */
 export async function removeFileOrDirectory(
@@ -10,7 +10,7 @@ export async function removeFileOrDirectory(
   justForJudgment: Stats,
 ): Promise<boolean> {
   if (!removeData.log) {
-    _p(pen.hex('#aaa')(` ${element} 文件/夹存在，准备删除`));
+    _p(hexPen('#aaa')(` ${element} 文件/夹存在，准备删除`));
   }
   let result: {
     error: unknown;

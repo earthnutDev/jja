@@ -1,11 +1,12 @@
-import { dog } from './src/dog';
-import { command } from 'src/command';
-import { remove } from './src/remove';
-import update from './src/update';
-import { packageManage } from 'src/package';
-import { clearScreen } from 'src/clearScreen';
-import git from 'src/git';
+import { dog } from './dog';
+import { command } from './command';
+import { remove } from './remove';
+import update from './update';
+import { packageManage } from './package';
+import { clearScreen } from './clearScreen';
+import git from './git';
 import { isUndefined } from 'a-type-of-js';
+import { github } from './github';
 
 const arg = command.args.$arrMap;
 
@@ -47,6 +48,9 @@ async function run() {
   } else if ('update' in currentSubcommand) {
     dog('执行 update 相关命令');
     await update(currentSubcommand.update!);
+  } else if ('githubIp' in currentSubcommand) {
+    dog('执行 github 相关的命令');
+    await github(currentSubcommand.githubIp!);
   }
   await run();
 }

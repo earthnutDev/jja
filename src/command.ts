@@ -2,6 +2,7 @@ import { Command } from 'a-command';
 import pen from 'color-pen';
 import { ArgsArrMapItemList } from './types';
 import { dog } from './dog';
+import { hexPen, redPen } from './pen';
 
 // 初始化一个命令
 export const command = new Command<ArgsArrMapItemList>('jja');
@@ -27,12 +28,17 @@ command
     'clearScreen <cls> (清理终端显示屏幕，同 clearTerminal )': '',
     'clearTerminal  <clear>  (清理终端显示屏幕，同 clearScreen )': '',
     'git   (一些关于 git 的操作)': [
-      `commit (git 提交代码，是 ${pen.red(
+      `commit (git 提交代码，是 ${redPen(
         'commit',
-      )} 提交啊，不是 ${pen.hex('#666')('push')} 推送)`,
+      )} 提交啊，不是 ${hexPen('#666')('push')} 推送)`,
       'merge (合并两个分支)',
       'tag (给提交打上 tag)',
     ],
+    // 'githubIp <gi> (可用户获取 github.com 的 ip)': [
+    //   '--dns <-d> (通过 dns 获取 github.com 的 ip)',
+    //   '--http <-t> (通过 http 获取 github.com 的 ip)',
+    //   '--ping <-p> (通过 ping 命令获取 github.com 的 ip)',
+    // ],
   })
   .run();
 

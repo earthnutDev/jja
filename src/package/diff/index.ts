@@ -1,11 +1,10 @@
 import { dog } from './../../dog';
-import pen from 'color-pen';
-
 import { getVersion } from './getVersion';
 import { _p } from 'a-node-tools';
 import { isNull } from 'a-type-of-js';
 import { dependencies } from './dependencies';
 import { diffData } from './data-store';
+import { orangePen, pen399 } from '../../pen';
 
 /** 检测当前包状态
  *
@@ -25,20 +24,20 @@ export async function diffPackage(): Promise<void> {
 
   if (isNull(local)) {
     dog('未找到包 package.json 文件退出');
-    return _p(pen.hex('#931')(`未找到当前包 package.json`));
+    return _p(orangePen(`未找到当前包 package.json`));
   }
 
   /// 本地的版本展示
-  const localVersion = pen.hex('#931')(`当前包本地版本为: ${version}`);
+  const localVersion = orangePen(`当前包本地版本为: ${version}`);
   _p(localVersion);
   if (isNull(online)) {
-    _p(pen.hex('#399')(`未获取当前包的线上信息`));
+    _p(pen399(`未获取当前包的线上信息`));
   } else {
     const blankSpace = '\x20'.repeat(6);
     // 线上版本
     const onlineVersionStr = `${blankSpace}线上版本为：${onlineVersion}@latest`;
 
-    _p(pen.hex('#399')(onlineVersionStr));
+    _p(pen399(onlineVersionStr));
 
     const publishTime = new Date(
       (online && online.time.modified) || '',

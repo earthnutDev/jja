@@ -32,7 +32,7 @@ export async function remove(params: ArgsArrMapItemType<removeParam>) {
   }
   if (delArr.length == 0) {
     dog.warn('待删除列表', delArr);
-    _p(pen.random('没有待清理的文件/文件夹'));
+    _p(pen.random`没有待清理的文件/文件夹`);
   }
   /// 反着清理（这里并没有使用 wheel 执行，而是简单的 while 循环）
   while (delArr.length) {

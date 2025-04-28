@@ -12,7 +12,7 @@ export const diffData: {
   /**  pkg npm 线上数据  */
   online: npmPkgInfoType | null;
   /**  依赖信息  */
-  dependencies: {
+  dependenceList: {
     [x: string]: {
       type: 'dependencies' | 'devDependencies';
       /**  package.json 中指定的版本  */
@@ -27,6 +27,8 @@ export const diffData: {
       localVersion: string;
       /**  线上最后一个 latest 版本  */
       onlineVersion: string;
+      /**  最后发布的时间  */
+      time: string;
       // 安装的标签
       tag: string;
     };
@@ -42,7 +44,7 @@ export const diffData: {
 } = {
   local: null,
   online: null,
-  dependencies: {},
+  dependenceList: {},
   updateDependence: [],
   latestDependence: [],
   binning: function (list, isDev = false): void {
@@ -53,13 +55,14 @@ export const diffData: {
     for (const key in list) {
       if (Object.prototype.hasOwnProperty.call(list, key)) {
         const element = list[key];
-        this.dependencies[key] = {
+        this.dependenceList[key] = {
           type: isDev ? 'devDependencies' : 'dependencies',
           version: element,
           localVersion: '',
           latestVersion: '',
           onlineVersion: '',
           tag: '',
+          time: '',
         };
       }
     }

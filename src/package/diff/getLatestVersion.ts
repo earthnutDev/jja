@@ -15,7 +15,7 @@ export async function getLatestVersion(pkgName: string) {
     return;
   }
 
-  const pkgInfo = diffData.dependencies[pkgName];
+  const pkgInfo = diffData.dependenceList[pkgName];
 
   const { 'dist-tags': tags, time } = response;
 
@@ -41,4 +41,10 @@ export async function getLatestVersion(pkgName: string) {
     pkgInfo.tag = lastTag;
     pkgInfo.latestVersion = lastVersion;
   }
+
+  const lt = new Date(time[lastVersion]).toLocaleString();
+  // 在获取到最后的最新发布的 tag 后即可通过 time 获取时间
+  pkgInfo.time = lt;
+
+  dog(`${pkgName} 的最后发布时间为：${lt}`);
 }

@@ -9,7 +9,7 @@ import copy from 'rollup-plugin-copy';
 const excludedPkg = ['node:', 'a-', 'color-pen', '@qqi'];
 
 export default {
-  input: './index.ts',
+  input: './bin.ts',
   output: {
     format: 'es',
     entryFileNames: '[name].mjs',

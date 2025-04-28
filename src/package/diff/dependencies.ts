@@ -1,8 +1,12 @@
+import { italicPen } from '../../pen';
 import { _p } from 'a-node-tools';
 import { diffVersion } from './diffVersion';
-import pen from 'color-pen';
+import pen, { strInOneLineOnTerminal } from 'color-pen';
 import { diffData } from './data-store';
 import { isNull } from 'a-type-of-js';
+import { installation } from './installation';
+import { latestPen } from './latestPen';
+import { tagPen } from './tagPen';
 
 /**
  *
@@ -10,12 +14,8 @@ import { isNull } from 'a-type-of-js';
  *
  */
 export async function dependencies() {
-  const {
-    local,
-    preReleaseDependence,
-    latestDependence,
-    dependencies: dependenceList,
-  } = diffData;
+  const { local, preReleaseDependence, latestDependence, dependenceList } =
+    diffData;
 
   // 值为空直接返回
   if (isNull(local)) {
@@ -34,11 +34,22 @@ export async function dependencies() {
     return;
   }
 
-  _p('\n版本差异的依赖为：');
-  _p([...latestDependence, ...preReleaseDependence].join('\n'));
+  _p(pen.brightGreen`\n版本差异的依赖为：\n`);
+
+  _p(
+    [...latestDependence, ...preReleaseDependence]
+      .map(item => {
+        const info = dependenceList[item];
+        const str = pen.random`- `.concat(
+          `${info.type === 'dependencies' ? pen.bold(item) : pen.italic(item)}：于${pen.color('#066')(info.time)} 发布 ${info.latestVersion || italicPen(info.onlineVersion)}`,
+        );
+        return strInOneLineOnTerminal(str);
+      })
+      .join('\n'),
+  );
   _p(
     pen.brightRed(
-      `仅关注版本号是否为最新 ${pen.brightMagenta('latest')}\n不关心是否是最佳依赖版本\n更新有风险，且更且珍惜`,
+      `\n目前仅关注版本号是否为最新 ${pen.brightMagenta('latest')}`,
     ),
   );
   _p('使用 npm install --save 命令安装更新\n');
@@ -47,18 +58,18 @@ export async function dependencies() {
   const radicals = [
     ...latestDependence
       .filter(i => preReleaseDependence.includes(i) === false)
-      .map(i => i.concat('@latest')),
-    ...preReleaseDependence.map(i => `${i}@${dependenceList[i].tag}`),
+      .map(i => pen.bold(i).concat('@latest')),
+    ...preReleaseDependence.map(i => tagPen(i, dependenceList[i].tag)),
   ];
   /**  保皇派  */
-  const royalist = latestDependence.map(i => i.concat('@latest'));
+  const royalist = latestDependence.map(i => latestPen(i));
 
   /** 保守派   */
   const conservatives = [
-    ...latestDependence.map(i => i.concat('@latest')),
+    ...latestDependence.map(i => latestPen(i)),
     ...preReleaseDependence
       .filter(i => latestDependence.includes(i) === false)
-      .map(i => `${i}@${dependenceList[i].tag}`),
+      .map(i => tagPen(i, dependenceList[i].tag)),
   ];
 
   if (
@@ -68,25 +79,21 @@ export async function dependencies() {
     const allLen = preReleaseDependence.length + latestDependence.length;
     // 有重叠才可以
     if (radicals.length < allLen) {
-      _p();
-      _p(pen.brightRed.reversed`激进派（预发布版本优先）安装手法：`);
-      _p();
-      _p(`npm install --save ${radicals.join(' ')}`);
-      _p();
+      installation({
+        msg: '‼️ 预发布版本优先：',
+        list: radicals,
+        type: 'brightRed',
+      });
     }
 
-    _p();
-    _p(pen.brightMagenta.reversed`保守派（latest 版本优先）安装手法：`);
-    _p();
-    _p(`npm install --save ${conservatives.join(' ')}`);
-    _p();
+    installation({
+      msg: '⚠️  latest 版本优先：',
+      list: conservatives,
+      type: 'brightMagenta',
+    });
   }
 
   if (latestDependence.length > 0) {
-    _p();
-    _p(pen.brightGreen.reversed`保皇派（最推荐的）稳妥安装：`);
-    _p();
-    _p(`npm install --save ${royalist.join(' ')}`);
-    _p();
+    installation({ msg: '🎉 最佳安装：', list: royalist, type: 'brightGreen' });
   }
 }
