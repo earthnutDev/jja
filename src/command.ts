@@ -20,7 +20,7 @@ command
     ],
     /** 导出绑定信息，放这个文件夹为了方便看 */
     'update <up> (做一个简单的 npm 升级程序，对，简单的)': [
-      '--ignore <-i> (不建议你这么用,你会发现你像个傻子一样在那等结果)',
+      '--ignore <-i> (不建议你这么用，你会发现你像个傻子一样在那等结果)',
       `--dependencies <-d> (更新依赖，跟 ${pen.random('npm update')} 一样)`,
       // '--npm-publish <-n> (用于 npm 包的升级)',
     ],
@@ -34,11 +34,12 @@ command
       'merge (合并两个分支)',
       'tag (给提交打上 tag)',
     ],
-    // 'githubIp <gi> (可用户获取 github.com 的 ip)': [
-    //   '--dns <-d> (通过 dns 获取 github.com 的 ip)',
-    //   '--http <-t> (通过 http 获取 github.com 的 ip)',
-    //   '--ping <-p> (通过 ping 命令获取 github.com 的 ip)',
-    // ],
+    'dns  (使用 dns 获取 ip 地址)': [
+      '--domain <-d> (获取给定域名获取 ip 地址，默认 github.com )',
+      '--port <-p> (配置要校验的 port 端口号，默认为 443)',
+      '--not-covered <-n> (不覆盖解析过程，默认不展示)',
+      // '--rrtype <-r> (配置要校验的 rrtype 类型，默认（传入非法值时）为 A)',
+    ],
   })
   .run();
 

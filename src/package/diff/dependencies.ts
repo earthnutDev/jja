@@ -1,4 +1,4 @@
-import { italicPen } from '../../pen';
+import { italicPen, pen666, redPen } from '../../pen';
 import { _p } from 'a-node-tools';
 import { diffVersion } from './diffVersion';
 import pen, { strInOneLineOnTerminal } from 'color-pen';
@@ -7,6 +7,7 @@ import { isNull } from 'a-type-of-js';
 import { installation } from './installation';
 import { latestPen } from './latestPen';
 import { tagPen } from './tagPen';
+import { printInOneLine } from 'src/printInOneLine';
 
 /**
  *
@@ -14,8 +15,13 @@ import { tagPen } from './tagPen';
  *
  */
 export async function dependencies() {
-  const { local, preReleaseDependence, latestDependence, dependenceList } =
-    diffData;
+  const {
+    local,
+    preReleaseDependence,
+    latestDependence,
+    dependenceList,
+    timeoutDependence,
+  } = diffData;
 
   // 值为空直接返回
   if (isNull(local)) {
@@ -29,8 +35,20 @@ export async function dependencies() {
 
   await diffVersion(); // 分析版本差
 
-  if (preReleaseDependence.length === 0 && latestDependence.length === 0) {
-    _p('看起来似乎没有依赖版本差异');
+  if (
+    preReleaseDependence.length === 0 &&
+    latestDependence.length === 0 &&
+    timeoutDependence.length === 0
+  ) {
+    _p(pen666`看起来似乎没有依赖版本差异`);
+    return;
+  } else if (
+    preReleaseDependence.length === 0 &&
+    latestDependence.length === 0
+  ) {
+    _p(
+      redPen`看起来网络不太好讷，所有的包线上版本的请求都出错了。或者是还没有执行 npm install 呐`,
+    );
     return;
   }
 
@@ -54,6 +72,13 @@ export async function dependencies() {
   );
   _p('使用 npm install --save 命令安装更新\n');
 
+  if (timeoutDependence.length > 0) {
+    printInOneLine(redPen`有一些包没有返回结果，请注意：`);
+    printInOneLine(
+      timeoutDependence.map(e => `${pen.random`-`} ${e}`).join('\n'),
+    );
+  }
+
   /**  激进派  */
   const radicals = [
     ...latestDependence
@@ -72,28 +97,39 @@ export async function dependencies() {
       .map(i => tagPen(i, dependenceList[i].tag)),
   ];
 
-  if (
-    // 预发布的数量高于 0
-    preReleaseDependence.length > 0
-  ) {
-    const allLen = preReleaseDependence.length + latestDependence.length;
+  /**  较危险的安装预发布版本的包  */
+  const radicalInstall =
+    radicals.length < preReleaseDependence.length + latestDependence.length;
+  /**  是否安装预发布包（较安全）  */
+  const royalistInstall = preReleaseDependence.length > 0;
+
+  /**  仅安装正式版本的最后版本  */
+  const conservativesInstall = latestDependence.length > 0;
+
+  if (royalistInstall) {
     // 有重叠才可以
-    if (radicals.length < allLen) {
-      installation({
+    if (radicalInstall) {
+      await installation({
         msg: '‼️ 预发布版本优先：',
         list: radicals,
         type: 'brightRed',
       });
     }
 
-    installation({
+    await installation({
       msg: '⚠️  latest 版本优先：',
       list: conservatives,
       type: 'brightMagenta',
+      copy: !conservativesInstall,
     });
   }
 
-  if (latestDependence.length > 0) {
-    installation({ msg: '🎉 最佳安装：', list: royalist, type: 'brightGreen' });
+  if (conservativesInstall) {
+    await installation({
+      msg: '🎉 最佳安装：',
+      list: royalist,
+      type: 'brightGreen',
+      copy: true,
+    });
   }
 }

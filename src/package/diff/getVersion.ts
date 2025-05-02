@@ -2,7 +2,6 @@ import { dog } from './../../dog';
 import {
   getDirectoryBy,
   getNpmPkgInfo,
-  npmPkgInfoType,
   PackageJson,
   pathJoin,
   readFileToJsonSync,
@@ -40,8 +39,9 @@ export async function getVersion(): Promise<void> {
   /**  包名  */
   const name = packageInfo.name || '';
 
-  const inlineInfo: npmPkgInfoType | null = await getNpmPkgInfo(name, '淘宝');
+  const inlineInfo = await getNpmPkgInfo(name, '淘宝');
 
   diffData.local = packageInfo;
-  diffData.online = inlineInfo;
+
+  diffData.online = inlineInfo.data; // 并不关心 null 不 null
 }

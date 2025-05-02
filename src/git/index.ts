@@ -12,6 +12,7 @@ import { gitParam } from 'src/types.js';
  */
 export default async function (params: ArgsArrMapItemType<gitParam>) {
   if (isPlainObject(params)) params = { value: [] };
+
   if (isUndefined(params.options) || params.options.length === 0) {
     dog.warn('没有配置项，直接返回的帮助文档');
     return command.help('git');

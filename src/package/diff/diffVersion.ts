@@ -9,8 +9,9 @@ import { printInOneLine } from '../../printInOneLine';
  *
  */
 export async function diffVersion(): Promise<void> {
-  const { dependenceList } = diffData;
+  const { dependenceList, timeoutDependence } = diffData;
   const keys = Object.keys(dependenceList);
+  /**  是否清理旧的输出  */
   let clearLine = false;
 
   for (let i = 0, j = keys.length; i < j; i++) {
@@ -18,13 +19,22 @@ export async function diffVersion(): Promise<void> {
     const pkgInfo = dependenceList[key];
     /**  package.json 中指定的版本  */
     const pkgLocalVersion = dependenceList[key].version;
-    await getLatestVersion(key);
+    await getLatestVersion(key); // 获取给定包的最新版本号
+    /**  本地安装的版本  */
     const pkgLocalInstallVersion = getInstallVersion(key);
     if (clearLine) {
       cursorMoveUp(); // 光标上移
       cursorLineClear();
       cursorAfterClear(true); // 清理该行
     }
+
+    if (pkgInfo.onlineVersion === '' && pkgInfo.latestVersion === '') {
+      timeoutDependence.push(key); // 将超时的包加入超时包列表
+      printInOneLine(`${key}  本地 ${pkgInfo.localVersion} 请求 ❌`);
+      clearLine = false;
+      continue;
+    }
+
     // 安装版本即最后发布的 latest 版本
     if (pkgLocalInstallVersion === pkgInfo.onlineVersion) {
       let message = `${key} 的本地${pkgLocalVersion} 安装版本为 ${pkgLocalInstallVersion}  最新是 ${pkgInfo.onlineVersion} `;

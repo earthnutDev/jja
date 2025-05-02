@@ -1,6 +1,6 @@
 export type packageParam = '--diff' | '--upDependencies';
 
-export type githubParam = '--dns' | '--http' | '--ping';
+export type dnsParam = '--domain' | '--port' | '--not-covered' | '--rrtype';
 
 export type gitParam = 'commit' | 'merge' | 'tag';
 
@@ -11,7 +11,7 @@ export type updateParams = '--ignore' | '--dependencies' | '--npm-publish';
 export type ArgsArrMapItemList = {
   package: packageParam;
   git: gitParam;
-  githubIp: githubParam;
+  dns: dnsParam;
   clearScreen: undefined;
   clearTerminal: undefined;
   remove: removeParam;

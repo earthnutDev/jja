@@ -1,5 +1,5 @@
 import { dog } from './../../dog';
-import { getNpmPkgInfo, npmPkgInfoType } from 'a-node-tools';
+import { getNpmPkgInfo } from 'a-node-tools';
 import { isNull } from 'a-type-of-js';
 import { diffData } from './data-store';
 
@@ -7,20 +7,25 @@ import { diffData } from './data-store';
  * 获取给定包的最新版本号
  */
 export async function getLatestVersion(pkgName: string) {
-  const response: npmPkgInfoType | null = await getNpmPkgInfo(pkgName);
+  const response = await getNpmPkgInfo(pkgName, '官方', 4567);
+
+  if (response.status === 'timeout') {
+    dog.warn('请求超时');
+    return;
+  }
 
   // 非空验证
-  if (isNull(response)) {
+  if (isNull(response.data)) {
     dog.warn('获取包信息失败');
     return;
   }
 
   const pkgInfo = diffData.dependenceList[pkgName];
 
-  const { 'dist-tags': tags, time } = response;
+  const { 'dist-tags': tags, time, version } = response.data;
 
   /**  最后发布的版本  */
-  let lastVersion: string = response.version,
+  let lastVersion: string = version,
     lastTag = 'latest';
 
   pkgInfo.onlineVersion = lastVersion;

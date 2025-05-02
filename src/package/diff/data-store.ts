@@ -39,6 +39,8 @@ export const diffData: {
   latestDependence: string[];
   /**  有最新的预发布版本  */
   preReleaseDependence: string[];
+  /**  请求超时的版本  */
+  timeoutDependence: string[];
   /**  数据装箱  */
   binning: (list: { [x: string]: string } | undefined, isDev?: boolean) => void;
 } = {
@@ -68,4 +70,5 @@ export const diffData: {
     }
   },
   preReleaseDependence: [],
+  timeoutDependence: [],
 };

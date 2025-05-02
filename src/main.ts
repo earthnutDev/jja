@@ -6,7 +6,7 @@ import { packageManage } from './package';
 import { clearScreen } from './clearScreen';
 import git from './git';
 import { isUndefined } from 'a-type-of-js';
-import { github } from './github';
+import { dns } from './dns';
 
 const arg = command.args.$arrMap;
 
@@ -48,11 +48,15 @@ async function run() {
   } else if ('update' in currentSubcommand) {
     dog('执行 update 相关命令');
     await update(currentSubcommand.update!);
-  } else if ('githubIp' in currentSubcommand) {
-    dog('执行 github 相关的命令');
-    await github(currentSubcommand.githubIp!);
+  } else if ('dns' in currentSubcommand) {
+    dog('执行 dns 相关的命令');
+    await dns(currentSubcommand.dns!);
   }
-  await run();
+  try {
+    await run();
+  } catch (error) {
+    dog.error('执行 run 报错', error);
+  }
 }
 
 try {

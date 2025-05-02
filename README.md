@@ -48,6 +48,24 @@ npx jja up
 
 升级前尽量保证你的功能完善，且 git 目录干净
 
+### dns
+
+添加了域名解析，使用线上的域名，目前仅支持 `A` 记录的查询
+
+```bash
+# 简单使用（将返回 github.com 的解析地址）
+npx jja dns
+# 使用自定义的网址
+npx jja dns --domain=www.npmjs.com
+npx jja dns -d=www.npmjs.com
+# 使用自定义的判断联通的接口（默认 443）
+npx jja dns --port=80
+npx jja dns -p=80
+# 展示每一个测试的 dns 信息
+npx jja dns --not-covered
+npx jja dns -n
+```
+
 ## 📄 文档地址
 
 参看 [https://earthnut.dev/jja/](https://earthnut.dev/jja/)
