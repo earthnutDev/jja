@@ -1,5 +1,5 @@
 import { runOtherCode } from 'a-node-tools';
-import { command } from 'src/command';
+import { command } from '../command';
 
 /** 合并两个分支  */
 export async function gitMerge(params: string) {

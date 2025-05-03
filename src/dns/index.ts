@@ -4,6 +4,7 @@ import { dnsParam } from 'src/types';
 import { printResult } from './printResult';
 import { getIp } from './getIp';
 import { getLocalIp } from './getLocalIp';
+import { printNotFound } from './printNotFound';
 
 /**
  *
@@ -18,6 +19,8 @@ export async function dns(params: ArgsArrMapItemType<dnsParam>) {
   const { ips } = dataStore;
 
   if (Object.keys(ips).length > 0) {
-    printResult();
+    await printResult();
+  } else {
+    await printNotFound();
   }
 }

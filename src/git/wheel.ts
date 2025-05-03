@@ -1,4 +1,4 @@
-import { command } from 'src/command';
+import { command } from '../command';
 import { beforeTagCommit } from './beforeTagCommit';
 import { gitCommit } from './gitCommit';
 import { gitMerge } from './gitMerge';

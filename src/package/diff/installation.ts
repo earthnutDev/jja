@@ -2,7 +2,7 @@ import { _p } from 'a-node-tools';
 import { everyThreePlusBackslash } from './everyThreePlusBackslash';
 import pen, { terminalRegExp } from 'color-pen';
 import { copyTextToClipboard } from '@qqi/copy-text';
-import { pen666 } from 'src/pen';
+import { pen666 } from '../../pen';
 
 /**
  *

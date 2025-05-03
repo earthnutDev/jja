@@ -1,4 +1,4 @@
-import { command } from 'src/command';
+import { command } from '../command';
 import { tagCommit } from './tagCommit';
 
 /** 打 tag 之前 */

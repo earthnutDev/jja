@@ -7,7 +7,7 @@ import { isNull } from 'a-type-of-js';
 import { installation } from './installation';
 import { latestPen } from './latestPen';
 import { tagPen } from './tagPen';
-import { printInOneLine } from 'src/printInOneLine';
+import { printInOneLine } from '../../printInOneLine';
 
 /**
  *

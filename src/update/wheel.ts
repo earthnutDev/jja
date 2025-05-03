@@ -1,4 +1,4 @@
-import { updateDependence } from 'src/package/updateDependence';
+import { updateDependence } from '../package/updateDependence';
 import { data } from './data';
 // import { updateNpm } from './updateNpm';
 
