@@ -2,7 +2,7 @@ import { Stats } from 'node:fs';
 import { removeData } from './removeData';
 import { _p, isWindows, runOtherCode } from 'a-node-tools';
 import { removeResult } from './removeResult';
-import { hexPen } from '../pen';
+import { hexPen } from 'color-pen';
 
 /** 移除文件或是目录 */
 export async function removeFileOrDirectory(

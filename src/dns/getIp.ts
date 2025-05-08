@@ -2,9 +2,9 @@ import { _p, cursorAfterClear, cursorMoveUp } from 'a-node-tools';
 import { dataStore } from './data-store';
 import { isUndefined } from 'a-type-of-js';
 import { getIdByDnsServer } from './getIdByDnsServer';
-import pen, { strInOneLineOnTerminal } from 'color-pen';
+import { greenPen, pen, redPen, strInOneLineOnTerminal } from 'color-pen';
 import { dog } from '../dog';
-import { greenPen, orangePen, pen666, redPen } from '../pen';
+import { orangePen, pen666 } from '../pen';
 
 /**
  *

@@ -1,4 +1,4 @@
-import { greenPen } from './../pen';
+import { greenPen } from 'color-pen';
 import { dog } from './../dog';
 import { _p } from 'a-node-tools';
 

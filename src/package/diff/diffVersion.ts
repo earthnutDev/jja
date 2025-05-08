@@ -1,9 +1,10 @@
-import { greenPen, pen399 } from './../../pen';
+import { pen399 } from './../../pen';
 import { cursorAfterClear, cursorLineClear, cursorMoveUp } from 'a-node-tools';
 import { getInstallVersion } from './getInstallVersion';
 import { getLatestVersion } from './getLatestVersion';
 import { diffData } from './data-store';
 import { printInOneLine } from '../../printInOneLine';
+import { greenPen } from 'color-pen';
 
 /**
  *

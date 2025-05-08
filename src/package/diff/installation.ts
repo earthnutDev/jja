@@ -1,8 +1,9 @@
 import { _p } from 'a-node-tools';
 import { everyThreePlusBackslash } from './everyThreePlusBackslash';
-import pen, { terminalRegExp } from 'color-pen';
+import { pen } from 'color-pen';
 import { copyTextToClipboard } from '@qqi/copy-text';
 import { pen666 } from '../../pen';
+import { terminalRegExp } from '@color-pen/static';
 
 /**
  *
@@ -25,7 +26,7 @@ export async function installation(options: {
   _p();
   if (copy) {
     await copyTextToClipboard(
-      `npm install --save ${list.join(' ')}`.replace(terminalRegExp, ''),
+      `npm install --save ${list.join(' ')}`.replace(terminalRegExp(), ''),
     );
   }
 }

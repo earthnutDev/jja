@@ -4,7 +4,8 @@ import { dataStore } from './data-store';
 import { isUndefined } from 'a-type-of-js';
 import { checkIp } from './checkIp';
 import { _p } from 'a-node-tools';
-import { cyanPen, orangePen, pen666 } from '../pen';
+import { orangePen, pen666 } from '../pen';
+import { cyanPen } from 'color-pen';
 
 /**
  *

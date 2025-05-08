@@ -1,7 +1,7 @@
 import { _p, typewrite } from 'a-node-tools';
-import pen from 'color-pen';
+import { greenPen, pen, redPen } from 'color-pen';
 import { dataStore } from './data-store';
-import { greenPen, orangePen, pen666, redPen } from '../pen';
+import { orangePen, pen666 } from '../pen';
 
 /**
  *

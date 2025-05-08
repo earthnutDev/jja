@@ -1,6 +1,6 @@
 import { command } from '../command';
 import { _p, getDirectoryBy, runOtherCode } from 'a-node-tools';
-import pen from 'color-pen';
+import { hexPen } from 'color-pen';
 import { tagCommit } from './tagCommit';
 
 /** 整理 git
@@ -15,7 +15,7 @@ export async function gitCommit(
   /// 检测当前目录下有没有  .git  文件夹
   const cwd = getDirectoryBy('.git', 'directory');
   if (cwd == undefined) {
-    return _p(pen.hex('#ff0')('not a git repository（当前目录非 git 储存库）'));
+    return _p(hexPen('#ff0')('not a git repository（当前目录非 git 储存库）'));
   }
   const addResult = await runOtherCode({ code: 'git add .', cwd });
   // 倘若没有成功，可能是执行目录下没有  .git

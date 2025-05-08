@@ -1,7 +1,7 @@
-import { italicPen, pen666, redPen } from '../../pen';
+import { pen666 } from '../../pen';
 import { _p } from 'a-node-tools';
 import { diffVersion } from './diffVersion';
-import pen, { strInOneLineOnTerminal } from 'color-pen';
+import { italicPen, pen, redPen, strInOneLineOnTerminal } from 'color-pen';
 import { diffData } from './data-store';
 import { isNull } from 'a-type-of-js';
 import { installation } from './installation';

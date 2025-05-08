@@ -1,4 +1,4 @@
-import { italicPen } from '../../pen';
+import { italicPen } from 'color-pen';
 
 /**
  * 除了 latest 其他标签的色值为任意色

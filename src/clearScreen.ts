@@ -6,8 +6,8 @@ import {
   isWindows,
   runOtherCode,
 } from 'a-node-tools';
-import { csi } from 'color-pen';
 import { dog } from './dog';
+import { csi } from '@color-pen/static';
 
 /** 导出清理屏幕 */
 export async function clearScreen() {

@@ -1,8 +1,7 @@
 import { Command } from 'a-command';
-import pen from 'color-pen';
+import { hexPen, randomPen, redPen } from 'color-pen';
 import { ArgsArrMapItemList } from './types';
 import { dog } from './dog';
-import { hexPen, redPen } from './pen';
 
 // 初始化一个命令
 export const command = new Command<ArgsArrMapItemList>('jja');
@@ -21,7 +20,7 @@ command
     /** 导出绑定信息，放这个文件夹为了方便看 */
     'update <up> (做一个简单的 npm 升级程序，对，简单的)': [
       '--ignore <-i> (不建议你这么用，你会发现你像个傻子一样在那等结果)',
-      `--dependencies <-d> (更新依赖，跟 ${pen.random('npm update')} 一样)`,
+      `--dependencies <-d> (更新依赖，跟 ${randomPen('npm update')} 一样)`,
       // '--npm-publish <-n> (用于 npm 包的升级)',
     ],
     /** 到处清理屏幕的信息 */

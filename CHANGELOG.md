@@ -1,5 +1,22 @@
 # jja
 
+## v2.3.2 （5 🈷️ 8 日 2025 年）
+
+- 更新了依赖，避免了因依赖问题而导致的问题
+
+```bash
+# VERSION=$(node -p "require('./package.json').version")
+
+# echo "获取全称 npm version : $VERSION"
+# if [[ $VERSION =~ -([a-zA-Z0-9]+)(\.|$) ]]; then
+#   TAG=${BASH_REMATCH[1]}
+#   echo "捕获到 npm tag : $TAG"
+# else
+#   TAG="latest"
+#   echo "未捕获到 npm tag 使用默认 : $TAG"
+# fi
+```
+
 ## v2.3.1 （5 🈷️ 3 日 2025 年）
 
 - 优化了 `dns` 子命令在没有解析到 ip 时的反馈
