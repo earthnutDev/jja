@@ -18,7 +18,7 @@ packageJson = {
     url: 'https://earthnut.dev',
   },
   files: ['src', 'bin.mjs'],
-  keywords: ['ixxx', 'jja'],
+  keywords: ['jja'],
   repository: {
     type: 'git',
     url: 'git+https://github.com/earthnutDev/jja.git',
