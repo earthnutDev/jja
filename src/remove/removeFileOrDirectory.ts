@@ -43,6 +43,9 @@ export async function removeFileOrDirectory(
     });
     removeResult(element, result.success);
   }
-  if (!result.success) return console.log(result.error) !== undefined;
+  if (!result.success) {
+    console.log(result.error);
+    return false;
+  }
   return true;
 }

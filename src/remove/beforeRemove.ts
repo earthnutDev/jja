@@ -17,6 +17,7 @@ export async function beforeRemove(element: string) {
     _p(hexPen('#666')(`正在检测 ${element} 文件/夹是否存在`));
   }
   dog(`文件${element} 数据为 ${justForJudgment}`);
+
   if (!isUndefined(justForJudgment)) {
     await wheelRun(
       removeFileOrDirectory as (...param: unknown[]) => Promise<boolean>,

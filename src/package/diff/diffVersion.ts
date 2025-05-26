@@ -1,3 +1,4 @@
+import { command } from './../../command';
 import { pen399 } from './../../pen';
 import { cursorAfterClear, cursorLineClear, cursorMoveUp } from 'a-node-tools';
 import { getInstallVersion } from './getInstallVersion';
@@ -31,7 +32,7 @@ export async function diffVersion(): Promise<void> {
 
     if (pkgInfo.onlineVersion === '' && pkgInfo.latestVersion === '') {
       timeoutDependence.push(key); // 将超时的包加入超时包列表
-      printInOneLine(`${key}  本地 ${pkgInfo.localVersion} 请求 ❌`);
+      command.ERROR(`${key}  本地 ${pkgInfo.localVersion} 请求错误`);
       clearLine = false;
       continue;
     }

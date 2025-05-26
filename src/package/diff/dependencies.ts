@@ -1,7 +1,16 @@
-import { pen666 } from '../../pen';
+import { pen399, pen666 } from '../../pen';
 import { _p } from 'a-node-tools';
 import { diffVersion } from './diffVersion';
-import { italicPen, pen, redPen, strInOneLineOnTerminal } from 'color-pen';
+import {
+  boldPen,
+  cyanPen,
+  hexPen,
+  italicPen,
+  magentaPen,
+  pen,
+  redPen,
+  strInTerminalLength,
+} from 'color-pen';
 import { diffData } from './data-store';
 import { isNull } from 'a-type-of-js';
 import { installation } from './installation';
@@ -54,16 +63,33 @@ export async function dependencies() {
 
   _p(pen.brightGreen`\n版本差异的依赖为：\n`);
 
+  /**  有变化的包名  */
+  const diffList = [...latestDependence, ...preReleaseDependence];
+  /**  最长的字符  */
+  const longStr = [0, 0, 0];
+  diffList.forEach(e => {
+    const { latestVersion, time, onlineVersion } = dependenceList[e];
+    longStr[0] = Math.max(longStr[0], strInTerminalLength(e));
+    longStr[1] = Math.max(longStr[1], strInTerminalLength(time));
+    longStr[2] = Math.max(
+      longStr[2],
+      strInTerminalLength(latestVersion || onlineVersion),
+    );
+  });
+
   _p(
-    [...latestDependence, ...preReleaseDependence]
-      .map(item => {
-        const info = dependenceList[item];
-        const str = pen.random`- `.concat(
-          `${info.type === 'dependencies' ? pen.bold(item) : pen.italic(item)}：于${pen.color('#066')(info.time)} 发布 ${info.latestVersion || italicPen(info.onlineVersion)}`,
-        );
-        return strInOneLineOnTerminal(str);
-      })
-      .join('\n'),
+    diffList.reduce(
+      (previousValue, currentValue) => {
+        const { type, latestVersion, time, onlineVersion } =
+          dependenceList[currentValue];
+
+        const name = currentValue.padEnd(longStr[0], ' ');
+        const _time = time.padEnd(longStr[1], ' ');
+
+        return `${previousValue}${type === 'dependencies' ? boldPen(name) : italicPen(name)} \t ${hexPen('#066')(_time)} \t ${latestVersion || italicPen(onlineVersion)}\n`;
+      },
+      `${cyanPen('包名'.padEnd(longStr[0], ''))} \t ${magentaPen('发布时间'.padEnd(longStr[1], ' '))} \t ${pen399('最新版本'.padEnd(longStr[2], '+'))}\n`,
+    ),
   );
   _p(
     pen.brightRed(
@@ -74,8 +100,11 @@ export async function dependencies() {
 
   if (timeoutDependence.length > 0) {
     printInOneLine(redPen`有一些包没有返回结果，请注意：`);
-    printInOneLine(
-      timeoutDependence.map(e => `${pen.random`-`} ${e}`).join('\n'),
+
+    console.table(
+      timeoutDependence.map(e => ({
+        包名: e,
+      })),
     );
   }
 
@@ -86,7 +115,7 @@ export async function dependencies() {
       .map(i => pen.bold(i).concat('@latest')),
     ...preReleaseDependence.map(i => tagPen(i, dependenceList[i].tag)),
   ];
-  /**  保皇派  */
+  /**  蛋黄派  */
   const royalist = latestDependence.map(i => latestPen(i));
 
   /** 保守派   */

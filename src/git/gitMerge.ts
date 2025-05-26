@@ -6,10 +6,11 @@ export async function gitMerge(params: string) {
   if (params == '') {
     const branchList = await runOtherCode('git branch -a');
     console.log(branchList.data);
-    params = await command.question({
-      text: '请输入要合并分支的名称',
-      private: true,
-    });
+    params =
+      (await command.question({
+        text: '请输入要合并分支的名称',
+        private: true,
+      })) || '';
   }
   const mergeType: number = (await command.selection(
     {
