@@ -5,6 +5,8 @@ import { isNull } from 'a-type-of-js';
 import { dependencies } from './dependencies';
 import { diffData } from './data-store';
 import { orangePen, pen399 } from '../../pen';
+import { command } from '../../command';
+import { randomPen } from 'color-pen';
 
 /** 检测当前包状态
  *
@@ -43,8 +45,13 @@ export async function diffPackage(): Promise<void> {
       (online && online.time.modified) || '',
     ).toLocaleString();
 
-    _p(publishTime.toString());
+    command.INFO(`最后的发布时间为： ${publishTime.toString()}`);
+
+    _p([...'-'.repeat(process.stdout.columns)].map(e => randomPen(e)).join(''));
+    _p();
+    _p([...'-'.repeat(process.stdout.columns)].map(e => randomPen(e)).join(''));
   }
 
+  // 分析本地依赖的版本信息
   await dependencies();
 }

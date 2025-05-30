@@ -1,15 +1,14 @@
-import { pen399, pen666 } from '../../pen';
+import { pen666 } from '../../pen';
 import { _p } from 'a-node-tools';
 import { diffVersion } from './diffVersion';
 import {
   boldPen,
   cyanPen,
-  hexPen,
+  greenPen,
   italicPen,
-  magentaPen,
   pen,
+  randomPen,
   redPen,
-  strInTerminalLength,
 } from 'color-pen';
 import { diffData } from './data-store';
 import { isNull } from 'a-type-of-js';
@@ -17,6 +16,7 @@ import { installation } from './installation';
 import { latestPen } from './latestPen';
 import { tagPen } from './tagPen';
 import { printInOneLine } from '../../printInOneLine';
+import { Table } from 'colored-table';
 
 /**
  *
@@ -39,11 +39,12 @@ export async function dependencies() {
 
   const { dependencies, devDependencies } = local;
 
-  diffData.binning(dependencies);
+  diffData.binning(dependencies); // 这个过程中实际初始化了依赖的数据
   diffData.binning(devDependencies, true);
 
   await diffVersion(); // 分析版本差
 
+  // 没有依赖版本有差异且都正常获取没有出现网络故障
   if (
     preReleaseDependence.length === 0 &&
     latestDependence.length === 0 &&
@@ -55,6 +56,7 @@ export async function dependencies() {
     preReleaseDependence.length === 0 &&
     latestDependence.length === 0
   ) {
+    // 所有包都出现了故障
     _p(
       redPen`看起来网络不太好讷，所有的包线上版本的请求都出错了。或者是还没有执行 npm install 呐`,
     );
@@ -65,32 +67,26 @@ export async function dependencies() {
 
   /**  有变化的包名  */
   const diffList = [...latestDependence, ...preReleaseDependence];
-  /**  最长的字符  */
-  const longStr = [0, 0, 0];
-  diffList.forEach(e => {
-    const { latestVersion, time, onlineVersion } = dependenceList[e];
-    longStr[0] = Math.max(longStr[0], strInTerminalLength(e));
-    longStr[1] = Math.max(longStr[1], strInTerminalLength(time));
-    longStr[2] = Math.max(
-      longStr[2],
-      strInTerminalLength(latestVersion || onlineVersion),
-    );
-  });
 
-  _p(
-    diffList.reduce(
-      (previousValue, currentValue) => {
-        const { type, latestVersion, time, onlineVersion } =
-          dependenceList[currentValue];
+  new Table({
+    header: [
+      cyanPen('包名'),
+      { content: '发布时间', color: '#f26' },
+      greenPen`最新版本`,
+    ],
+    body: [
+      ...diffList.map(e => {
+        const { type, latestVersion, time, onlineVersion } = dependenceList[e];
 
-        const name = currentValue.padEnd(longStr[0], ' ');
-        const _time = time.padEnd(longStr[1], ' ');
+        return [
+          type === 'dependencies' ? boldPen(e) : italicPen(e),
+          randomPen(time),
+          latestVersion || italicPen(onlineVersion),
+        ];
+      }),
+    ],
+  })();
 
-        return `${previousValue}${type === 'dependencies' ? boldPen(name) : italicPen(name)} \t ${hexPen('#066')(_time)} \t ${latestVersion || italicPen(onlineVersion)}\n`;
-      },
-      `${cyanPen('包名'.padEnd(longStr[0], ''))} \t ${magentaPen('发布时间'.padEnd(longStr[1], ' '))} \t ${pen399('最新版本'.padEnd(longStr[2], '+'))}\n`,
-    ),
-  );
   _p(
     pen.brightRed(
       `\n目前仅关注版本号是否为最新 ${pen.brightMagenta('latest')}`,
@@ -100,12 +96,8 @@ export async function dependencies() {
 
   if (timeoutDependence.length > 0) {
     printInOneLine(redPen`有一些包没有返回结果，请注意：`);
-
-    console.table(
-      timeoutDependence.map(e => ({
-        包名: e,
-      })),
-    );
+    // 打印未获取到数据的包名
+    new Table([...timeoutDependence.map(e => [e])])();
   }
 
   /**  激进派  */

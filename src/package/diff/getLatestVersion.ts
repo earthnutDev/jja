@@ -7,6 +7,7 @@ import { diffData } from './data-store';
  * 获取给定包的最新版本号
  */
 export async function getLatestVersion(pkgName: string) {
+  /**  获取线上信息  */
   const response = await getNpmPkgInfo(pkgName, '官方', 4567);
 
   if (response.status === 'timeout') {
