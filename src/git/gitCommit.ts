@@ -30,8 +30,7 @@ export async function gitCommit(
       commitMessage =
         (await command.question({
           text: '请输入提交信息',
-          private: true,
-        })) || '';
+        })) ?? '';
     }
     const commitResult = await runOtherCode({
       code: `git commit -m "${commitMessage}"`,

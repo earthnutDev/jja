@@ -6,7 +6,6 @@ import { tagCommit } from './tagCommit';
 export async function beforeTagCommit() {
   const tag = await command.question({
     text: '请输入待标记的信息',
-    private: true,
   });
 
   if (isUndefined(tag)) {

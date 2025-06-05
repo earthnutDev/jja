@@ -31,10 +31,8 @@ export async function diffPackage(): Promise<void> {
 
   /// 本地的版本展示
   const localVersion = orangePen(`当前包本地版本为: ${version}`);
-  _p(localVersion);
-  if (isNull(online)) {
-    _p(pen399(`未获取当前包的线上信息`));
-  } else {
+  if (online) {
+    _p(localVersion);
     const blankSpace = '\x20'.repeat(6);
     // 线上版本
     const onlineVersionStr = `${blankSpace}线上版本为：${onlineVersion}@latest`;

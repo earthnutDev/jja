@@ -7,6 +7,8 @@ import { clearScreen } from './clearScreen';
 import git from './git';
 import { isUndefined } from 'a-type-of-js';
 import { dns } from './dns';
+import { runOther } from './runOther';
+import { colorLine } from 'a-node-tools';
 
 const arg = command.args.$arrMap;
 
@@ -21,7 +23,7 @@ if (command.args.$only.length === 0) {
 /** 根据用户的参数 */
 async function run() {
   if (arg.length === 0) {
-    command.end();
+    return;
   }
   // 当前执行的子命令
   const currentSubcommand = arg.shift();
@@ -51,16 +53,20 @@ async function run() {
   } else if ('dns' in currentSubcommand) {
     dog('执行 dns 相关的命令');
     await dns(currentSubcommand.dns!);
+  } else if ('runOtherCode' in currentSubcommand) {
+    dog('执行运行其他命令');
+    await runOther(currentSubcommand.runOtherCode!);
   }
+
   try {
     await run();
   } catch (error) {
     dog.error('执行 run 报错', error);
   }
 }
-
 try {
   await run();
+  colorLine(' 终结分割线 ', true);
 } catch (error) {
   dog.error('执行 run 报错', error);
 }

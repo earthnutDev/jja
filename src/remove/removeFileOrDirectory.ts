@@ -20,27 +20,20 @@ export async function removeFileOrDirectory(
 
   if (isWindows) {
     if (justForJudgment.isDirectory()) {
-      result = await runOtherCode({
-        code: `rd /q /s  ${element.replace(/\//, '\\')}`,
-        printLog: false,
-      });
+      result = await runOtherCode(`rd /q /s  ${element.replace(/\//, '\\')}`);
       removeResult(element, result.success);
       // rmdirSync(element, { force: true, recursive: true });
     } else if (justForJudgment.isFile()) {
       // rmSync(element, { force: true });
-      result = await runOtherCode({
-        code: `del  ${
+      result = await runOtherCode(
+        `del  ${
           removeData.subdirectories ? '/s' : ''
         }  /q  ${element.replace(/\//, '\\')}`,
-        printLog: false,
-      });
+      );
       removeResult(element, result.success);
     }
   } else {
-    result = await runOtherCode({
-      code: `rm -rf  ${element.replace(/\\/, '/')}`,
-      printLog: false,
-    });
+    result = await runOtherCode(`rm -rf  ${element.replace(/\\/, '/')}`);
     removeResult(element, result.success);
   }
   if (!result.success) {

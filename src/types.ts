@@ -16,4 +16,5 @@ export type ArgsArrMapItemList = {
   clearTerminal: undefined;
   remove: removeParam;
   update: updateParams;
+  runOtherCode: undefined;
 };
