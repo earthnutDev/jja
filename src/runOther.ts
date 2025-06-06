@@ -5,8 +5,10 @@
  *  @FileName runOther.ts
  *  @CreateDate  周四  06/05/2025
  *  @Description 思虑再三，还是砍掉了这个鸡肋的功能
+ *
+ * <span style="color:#f36;">弃用功能业</span>
  ****************************************************************************/
-import type { ArgsArrMapItemType } from 'a-command/types/args';
+
 import {
   PackageJson,
   readFileToJsonSync,
@@ -15,6 +17,7 @@ import {
 } from 'a-node-tools';
 import { isUndefined, isZero } from 'a-type-of-js';
 import { command } from './command';
+import { ArgsArrMapItemType } from 'a-command';
 
 /** 导出执行其他代码 */
 export async function runOther(runOther: ArgsArrMapItemType<undefined>) {

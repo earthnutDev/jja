@@ -1,4 +1,4 @@
-# jja
+# jolly job aid (开心工作助手)
 
 [![version](<https://img.shields.io/npm/v/jja.svg?logo=npm&logoColor=rgb(0,0,0)&label=版本号&labelColor=rgb(73,73,228)&color=rgb(0,0,0)>)](https://www.npmjs.com/package/jja) [![issues 提交](<https://img.shields.io/badge/issues-提交-rgb(255,0,63)?logo=github>)](https://github.com/earthnutDev/jja/issues)
 
@@ -38,6 +38,13 @@ npx jja  rm  -i  filename
 npx jja package --diff
 # 或者使用缩写
 npx jjs pkg -d
+# 指定源
+npx jjs pkg -d=淘宝
+npx jjs pkg -d=腾讯
+npx jjs pkg -d=中科大
+npx jjs pkg -d=yarn
+# 默认源 （指定值不存在则默认使用 `官方`）
+npx jjs pkg -d=官方
 ```
 
 ### `update`

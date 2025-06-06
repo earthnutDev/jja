@@ -7,7 +7,6 @@ import { clearScreen } from './clearScreen';
 import git from './git';
 import { isUndefined } from 'a-type-of-js';
 import { dns } from './dns';
-import { runOther } from './runOther';
 import { colorLine } from 'a-node-tools';
 
 const arg = command.args.$arrMap;
@@ -55,7 +54,7 @@ async function run() {
     await dns(currentSubcommand.dns!);
   } else if ('runOtherCode' in currentSubcommand) {
     dog('执行运行其他命令');
-    await runOther(currentSubcommand.runOtherCode!);
+    // await runOther(currentSubcommand.runOtherCode!);
   }
 
   try {

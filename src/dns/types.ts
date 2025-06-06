@@ -1,4 +1,4 @@
-import { ArgsArrMapOptions } from 'a-command/types/args';
+import { ArgsArrMapOptions } from 'a-command';
 import { dnsParam } from 'src/types';
 
 /**

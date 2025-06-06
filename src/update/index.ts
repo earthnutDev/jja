@@ -1,10 +1,10 @@
 import { dog } from './../dog';
 import { command } from '../command';
-import { ArgsArrMapItemType } from 'a-command/types/args';
 import { isUndefined } from 'a-type-of-js';
 import { wheel } from './wheel';
 import { data } from './data';
 import { updateParams } from 'src/types';
+import { ArgsArrMapItemType } from 'a-command';
 
 /**  导出一个升级包 */
 export default async function update(param: ArgsArrMapItemType<updateParams>) {

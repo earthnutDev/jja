@@ -1,9 +1,9 @@
 import { dog } from './../dog';
 import { command } from '../command';
-import { ArgsArrMapItemType } from 'a-command/types/args';
 import { packageParam } from '../types';
 import { isUndefined } from 'a-type-of-js';
 import { wheel } from './wheel';
+import { ArgsArrMapItemType } from 'a-command';
 
 /** 包管理的一些东西 */
 export async function packageManage(params: ArgsArrMapItemType<packageParam>) {

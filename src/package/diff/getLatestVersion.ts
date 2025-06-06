@@ -8,7 +8,7 @@ import { diffData } from './data-store';
  */
 export async function getLatestVersion(pkgName: string) {
   /**  获取线上信息  */
-  const response = await getNpmPkgInfo(pkgName, '官方', 4567);
+  const response = await getNpmPkgInfo(pkgName, diffData.registry, 4567);
 
   if (response.status === 'timeout') {
     dog.warn('请求超时');

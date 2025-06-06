@@ -1,4 +1,4 @@
-import { npmPkgInfoType, PackageJson } from 'a-node-tools';
+import { npmPkgInfoType, npmRegistry, PackageJson } from 'a-node-tools';
 import { isUndefined } from 'a-type-of-js';
 
 /**
@@ -43,6 +43,8 @@ export const diffData: {
   timeoutDependence: string[];
   /**  数据装箱  */
   binning: (list: { [x: string]: string } | undefined, isDev?: boolean) => void;
+  /**  npmRegistry  */
+  registry: npmRegistry | undefined;
 } = {
   local: null,
   online: null,
@@ -71,4 +73,5 @@ export const diffData: {
   },
   preReleaseDependence: [],
   timeoutDependence: [],
+  registry: undefined,
 };

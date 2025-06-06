@@ -1,12 +1,11 @@
 import { dog } from './../../dog';
 import { getVersion } from './getVersion';
-import { _p } from 'a-node-tools';
+import { _p, colorLine, npmRegistry } from 'a-node-tools';
 import { isNull } from 'a-type-of-js';
 import { dependencies } from './dependencies';
 import { diffData } from './data-store';
 import { orangePen, pen399 } from '../../pen';
 import { command } from '../../command';
-import { randomPen } from 'color-pen';
 
 /** 检测当前包状态
  *
@@ -15,7 +14,11 @@ import { randomPen } from 'color-pen';
  * - 当数组仅有一个值，可能该包尚未上线
  * - 当数组为两个元素，第一个元素是当前的版本号，第二个元素是线上的版本号
  */
-export async function diffPackage(): Promise<void> {
+export async function diffPackage(
+  param: (string | number | boolean)[],
+): Promise<void> {
+  diffData.registry = param[0]?.toString() as npmRegistry;
+
   /// 当前工作目录
   await getVersion();
 
@@ -45,9 +48,8 @@ export async function diffPackage(): Promise<void> {
 
     command.INFO(`最后的发布时间为： ${publishTime.toString()}`);
 
-    _p([...'-'.repeat(process.stdout.columns)].map(e => randomPen(e)).join(''));
-    _p();
-    _p([...'-'.repeat(process.stdout.columns)].map(e => randomPen(e)).join(''));
+    colorLine();
+    colorLine();
   }
 
   // 分析本地依赖的版本信息

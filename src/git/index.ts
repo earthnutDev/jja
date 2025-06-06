@@ -1,9 +1,9 @@
 import { dog } from './../dog';
 import { command } from '../command.js';
-import { ArgsArrMapItemType } from 'a-command/types/args';
 import { isPlainObject, isUndefined } from 'a-type-of-js';
 import { wheel } from './wheel.js';
 import { gitParam } from 'src/types.js';
+import { ArgsArrMapItemType } from 'a-command';
 
 /**
  *

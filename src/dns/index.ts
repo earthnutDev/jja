@@ -1,10 +1,10 @@
 import { dataStore } from './data-store';
-import { ArgsArrMapItemType } from 'a-command/types/args';
 import { dnsParam } from 'src/types';
 import { printResult } from './printResult';
 import { getIp } from './getIp';
 import { getLocalIp } from './getLocalIp';
 import { printNotFound } from './printNotFound';
+import { ArgsArrMapItemType } from 'a-command';
 
 /**
  *

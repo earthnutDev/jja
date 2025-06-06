@@ -16,7 +16,7 @@ export async function wheel(params: {
     await updateDependence(true);
   } else if (params['--diff']) {
     /** 检测当前版本 */
-    await diffPackage();
+    await diffPackage(params['--diff']!);
   } else {
     /** 其余的执行帮助文档 */
     command.help('package');

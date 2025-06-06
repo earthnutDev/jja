@@ -1,10 +1,10 @@
 import { dog } from './../dog';
 import { pen } from 'color-pen';
 import { _p, isWindows } from 'a-node-tools';
-import { ArgsArrMapItemType } from 'a-command/types/args';
 import { removeParam } from '../types';
 import { removeData } from './removeData';
 import { beforeRemove } from './beforeRemove';
+import { ArgsArrMapItemType } from 'a-command';
 
 /** 移除文件或是目录 */
 export async function remove(params: ArgsArrMapItemType<removeParam>) {

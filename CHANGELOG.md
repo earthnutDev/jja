@@ -1,4 +1,8 @@
-# jja
+# jolly job aid
+
+## v2.3.7 (2025-6-6)
+
+- 本来不想更新着一个版本的，奈何在更新别的库时，发现一个问题，那就是在使用 [npx jja pkg -d](https://www.npmjs.com/package/jja) 时反馈包的线上版本与 [npx vjj -b](https://www.npmjs.com/package/vjj) 反馈的线上版本不一致。然而，两个不同的线上版本的数据都是可靠。但他们来自于不同的 npm registry 源。所以，现在，可在使用 `npx jja pkg -d` 时指定 npm 源，npm 源支持情况目前仅支持 [a-node-tools](https://www.npmjs.com/package/a-node-tools) 支持的。就像，你在领先的电脑上无法安装开发领先自己自主研发的开发自家软件的开发工具
 
 ## v2.3.6 (2025-6-5)
 

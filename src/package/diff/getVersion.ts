@@ -39,7 +39,7 @@ export async function getVersion(): Promise<void> {
   /**  包名  */
   const name = packageInfo.name || '';
 
-  const inlineInfo = await getNpmPkgInfo(name, '淘宝');
+  const inlineInfo = await getNpmPkgInfo(name, diffData.registry);
 
   diffData.local = packageInfo;
 
