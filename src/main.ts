@@ -1,10 +1,10 @@
 import { dog } from './dog';
 import { command } from './command';
 import { remove } from './remove';
-import update from './update';
+import { update } from './update';
 import { packageManage } from './package';
 import { clearScreen } from './clearScreen';
-import git from './git';
+import { git } from './git';
 import { isUndefined } from 'a-type-of-js';
 import { dns } from './dns';
 import { colorLine } from 'a-node-tools';

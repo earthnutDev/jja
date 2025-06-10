@@ -10,7 +10,7 @@ import { ArgsArrMapItemType } from 'a-command';
  * 与 git 相关的
  *
  */
-export default async function (params: ArgsArrMapItemType<gitParam>) {
+export async function git(params: ArgsArrMapItemType<gitParam>) {
   if (isPlainObject(params)) params = { value: [] };
 
   if (isUndefined(params.options) || params.options.length === 0) {

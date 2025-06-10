@@ -7,7 +7,7 @@ import { updateParams } from 'src/types';
 import { ArgsArrMapItemType } from 'a-command';
 
 /**  导出一个升级包 */
-export default async function update(param: ArgsArrMapItemType<updateParams>) {
+export async function update(param: ArgsArrMapItemType<updateParams>) {
   // 用户没有任何输入，则展示默认帮助文档
   if (isUndefined(param.options) || param.options.length == 0) {
     dog.warn('没有匹配到选项，自动抛出帮助文档');
